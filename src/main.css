@@ -1,0 +1,260 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+    background-color: #282828 !important;
+    padding: 10px;
+}
+
+.vue-command .term-search-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex
+}
+
+.vue-command .term-search {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background: #282828;
+    margin: 0;
+    border: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: 1rem
+}
+
+.vue-command .term-stdin-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex
+}
+
+.vue-command input,
+.vue-command textarea {
+    background: #282828;
+    border: none;
+    font-family: Inconsolata, monospace;
+    font-size: 1rem;
+    outline: none;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 100%
+}
+
+.vue-command input[type="submit"] {
+    background: #c0d2d6;
+    color: #282828;
+}
+
+.vue-command input[type="submit"]:hover {
+    background: #9dafb3;
+}
+
+.vue-command input::-webkit-input-placeholder,
+.vue-command textarea::-webkit-input-placeholder {
+    color: hsla(0, 0%, 100%, .5)
+}
+
+.vue-command input::-moz-placeholder,
+.vue-command textarea::-moz-placeholder {
+    color: hsla(0, 0%, 100%, .5)
+}
+
+.vue-command input:-ms-input-placeholder,
+.vue-command textarea:-ms-input-placeholder {
+    color: hsla(0, 0%, 100%, .5)
+}
+
+.vue-command input::-ms-input-placeholder,
+.vue-command textarea::-ms-input-placeholder {
+    color: hsla(0, 0%, 100%, .5)
+}
+
+.vue-command input::placeholder,
+.vue-command textarea::placeholder {
+    color: hsla(0, 0%, 100%, .5)
+}
+
+.vue-command .term-stdin {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    background: none;
+    margin: 0;
+    border: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: 1rem
+}
+
+.vue-command .term-ps {
+    margin-right: .5rem
+}
+
+.vue-command,
+.vue-command a,
+.vue-command input,
+.vue-command span,
+.vue-command textarea {
+    color: #EBDBB2
+}
+
+
+/* .vue-command {
+    overflow-y: hidden;
+    overflow-x: hidden;
+} */
+
+.vue-command .term-bar {
+    background: #282828;
+    border-bottom: 1px solid #282828;
+    display: block;
+    height: 32px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    top: 0;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex
+}
+
+.vue-command .term-title {
+    font-family: Montserrat, sans-serif;
+    font-size: .85rem;
+    margin: auto 0
+}
+
+.vue-command .term-std {
+    background: #282828;
+    display: block;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    border: 0 solid #282828
+}
+
+.vue-command .term-cont {
+    font-family: Inconsolata, monospace;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin-top: 10px
+}
+
+.vue-command .term-hist-container-fullscreen,
+.vue-command .term-std {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    height: 600px;
+}
+
+.vue-command .term-stdout {
+    word-break: normal
+}
+
+progress {
+    /* border: none; */
+    /* width: 400px;
+    height: 10%; */
+    background: #504945;
+}
+
+progress::-moz-progress-bar {
+    background: #d5c4a1;
+}
+
+textarea {
+    resize: none;
+}
+
+.intro {
+    position: relative;
+    top: 50%;
+    width: 24em;
+    margin: 0 auto;
+    border-right: 2px solid rgba(255, 255, 255, .75);
+    font-size: 180%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    transform: translateY(-50%);
+}
+
+.vue-typer {
+    position: relative;
+    top: 50%;
+    width: 24em;
+    margin: 0 auto;
+    border-right: 2px solid rgba(255, 255, 255, .75);
+    font-size: 180%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    transform: translateY(-50%);
+}
+
+.custom.char.typed {
+    color: #EBDBB2;
+}
+
+.active-item {
+    background-color: #7c6f64;
+}
+
+body {
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+}
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+
+.no-scrollbar {
+    -ms-overflow-style: none !important;
+    /* IE and Edge */
+    scrollbar-width: none !important;
+    /* Firefox */
+}
+
+#description::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+
+#description {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+input {
+    text-transform: uppercase;
+    font-weight: bold;
+}
