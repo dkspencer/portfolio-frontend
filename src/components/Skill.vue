@@ -2,11 +2,11 @@
   <div
     v-if="environment.isExecuting"
     @keyup="nextItem($event)"
-    class="flex flex-wrap overflow-x-hidden"
+    class="flex flex-wrap"
     v-on:click="focusTerminal"
   >
+    <!-- Introduction -->
     <div class="w-full overflow-hidden">
-      <p class="text-center bg-fg text-bg font-bold text-lg mb-2">SKILLS</p>
       <textarea
         class="
           resize-none
@@ -16,7 +16,7 @@
           overflow-hidden
         "
         ref="terminal"
-        @keydown.112="destroy"
+        @keydown.ctrl.88="destroy"
         readonly
         @keyup.39="nextPage"
         @keyup.37="prevPage"
@@ -25,6 +25,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       >
     </div>
 
+    <!-- Data table -->
     <div class="w-full overflow-hidden">
       <table ref="table-fixed" class="table-fixed w-full mt-2">
         <thead class="bg-fg text-bg">
@@ -68,7 +69,8 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       </table>
     </div>
 
-    <div class="w-full overflow-y-auto h-64 pb-5 my-5" id="description">
+    <!-- Summary -->
+    <div class="w-full overflow-y-auto pb-5 my-5" id="summary">
       <template v-if="this.example">
         <p class="font-bold text-xl">SUMMARY</p>
         <p class="mx-10 text-justify">
@@ -90,12 +92,13 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       </template>
     </div>
 
+    <!-- Actions -->
     <div
       class="flex flex-wrap overflow-hidden justify-center bg-fg"
       ref="actions"
     >
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg3 text-xl">[F1]</button>
+        <button v-on:click="destroy" class="text-bg3 text-xl">[CTRL+X]</button>
         CLOSE
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
@@ -119,7 +122,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 import axios from "axios";
 
 export default {
-  name: "Experience",
+  name: "Skills",
   inject: ["setIsFullscreen", "terminate"],
 
   components: {},
@@ -228,6 +231,10 @@ export default {
       var placeholder = document.getElementById("placeholder");
       placeholder.style.display = "block";
 
+      // Revert title
+      var title = document.getElementById("title");
+      title.innerText = 'PORTFOLIO';
+
       this.terminate();
     },
   },
@@ -252,6 +259,10 @@ export default {
     document.getElementById("footer").appendChild(this.$refs.actions);
     var placeholder = document.getElementById("placeholder");
     placeholder.style.display = "none";
+
+    // Append component name to title
+    var title = document.getElementById("title")
+    title.innerText = this.$options.name.toUpperCase();    
   },
 };
 </script>

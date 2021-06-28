@@ -1,10 +1,11 @@
 <template>
   <div
     v-if="environment.isExecuting"
+    class="flex flex-wrap overflow-x-hidden overflow-y-auto"
     v-on:click="focusTerminal"
   >
+    <!-- Title and description -->
     <div class="w-full overflow-hidden">
-      <p class="text-center bg-fg text-bg font-bold text-lg mb-2">HELP</p>
       <p class="text-center font-bold">
         ©{{ new Date().getFullYear() }} Danielle Spencer
       </p>
@@ -13,7 +14,7 @@
         My portfolio takes inspiration from retro UNIX and MS-DOS terminals (and
         as such, commands are case sensitive). Try typing in one of the
         following commands to view the related information about me. For
-        examplle; you can type in "skills" to view a list of my skills, and how
+        example; you can type in "skills" to view a list of my skills and how
         comfortable I feel using them.<br />
         Alternatively, if you just want to quickly see my CV, type in "download"
         and a PDF version of my CV will open up in a new tab in your browser.
@@ -28,15 +29,16 @@
           overflow-hidden
         "
         ref="terminal"
-        @keydown.112="destroy"
+        @keydown.ctrl.88="destroy"
         readonly
       >
 ------- COMMANDS -------</textarea
       >
     </div>
 
-    <div class="flex flex-wrap overflow-hidden py-5 px-5">
-      <div class="" id="description">
+    <!-- Commands -->
+    <div class="w-full overflow-y-auto pb-5 my-5">
+      <div class="" id="summary">
         <p class="font-bold text-xl">experience</p>
         <p class="mx-10 text-justify">View a history of my jobs</p>
         <p class="font-bold text-xl">skills</p>
@@ -54,30 +56,25 @@
       </div>
     </div>
 
-    <!-- <div class="w-full overflow-hidden max-w-screen-lg mx-auto mt-5"> -->
+    <!-- Actions -->
     <div
       class="flex flex-wrap overflow-hidden justify-center bg-fg"
       ref="actions"
     >
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg3 text-xl">[F1]</button>
+        <button v-on:click="destroy" class="text-bg3 text-xl">[CTRL+X]</button>
         CLOSE
       </p>
     </div>
-    <!-- </div> -->
   </div>
 </template>
 
 <script>
-// import CloseBtn from "./CloseBtn.vue";
-
 export default {
   name: "Help",
   inject: ["setIsFullscreen", "terminate"],
 
-  components: {
-    // CloseBtn
-  },
+  components: {},
   data: () => ({}),
 
   methods: {
@@ -94,6 +91,10 @@ export default {
       var placeholder = document.getElementById("placeholder");
       placeholder.style.display = "block";
 
+      // Revert title
+      var title = document.getElementById("title");
+      title.innerText = 'PORTFOLIO';
+
       this.terminate();
     },
   },
@@ -109,6 +110,10 @@ export default {
     document.getElementById("footer").appendChild(this.$refs.actions);
     var placeholder = document.getElementById("placeholder");
     placeholder.style.display = "none";
+
+    // Append component name to title
+    var title = document.getElementById("title")
+    title.innerText = this.$options.name.toUpperCase();
   },
 };
 </script>

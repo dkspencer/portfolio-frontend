@@ -2,11 +2,11 @@
   <div
     v-if="environment.isExecuting"
     @keyup="nextItem($event)"
-    class="flex flex-wrap overflow-x-hidden"
+    class="flex flex-wrap"
     v-on:click="focusTerminal"
   >
+    <!-- Introduction -->
     <div class="w-full overflow-hidden">
-      <p class="text-center bg-fg text-bg font-bold text-lg mb-2">USERS</p>
       <textarea
         class="
           resize-none
@@ -16,7 +16,7 @@
           overflow-hidden
         "
         ref="terminal"
-        @keydown.112="destroy"
+        @keydown.ctrl.88="destroy"
         readonly
         @keyup.39="nextPage"
         @keyup.37="prevPage"
@@ -25,6 +25,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       >
     </div>
 
+    <!-- Data table -->
     <div class="w-full overflow-hidden">
       <table ref="table-fixed" class="table-fixed w-full mt-2">
         <thead class="bg-fg text-bg">
@@ -70,6 +71,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       </table>
     </div>
 
+    <!-- Summary -->
     <div v-if="showProfile" class="flex flex-wrap overflow-hidden">
       <div class="w-1/4 overflow-hidden sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4">
         <img
@@ -82,15 +84,13 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       <div
         class="
           w-3/4
-          overflow-y-auto
-          h-64
           sm:w-3/4
           md:w-3/4
           lg:w-3/4
           xl:w-3/4
           pl-2
         "
-        id="description"
+        id="summary"
       >
         <p class="font-bold text-xl">EMAIL ADDRESS</p>
         <p class="mx-10 text-justify">
@@ -117,12 +117,13 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       </div>
     </div>
 
+    <!-- Actions -->
     <div
       class="flex flex-wrap overflow-hidden justify-center bg-fg"
       ref="actions"
     >
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg3 text-xl">[F1]</button>
+        <button v-on:click="destroy" class="text-bg3 text-xl">[CTRL+X]</button>
         CLOSE
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
@@ -146,7 +147,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 import axios from "axios";
 
 export default {
-  name: "User",
+  name: "Users",
   inject: ["setIsFullscreen", "terminate"],
 
   components: {
@@ -276,6 +277,10 @@ export default {
       var placeholder = document.getElementById("placeholder");
       placeholder.style.display = "block";
 
+      // Revert title
+      var title = document.getElementById("title");
+      title.innerText = 'PORTFOLIO';
+
       this.terminate();
     },
   },
@@ -300,6 +305,10 @@ export default {
     document.getElementById("footer").appendChild(this.$refs.actions);
     var placeholder = document.getElementById("placeholder");
     placeholder.style.display = "none";
+
+    // Append component name to title
+    var title = document.getElementById("title")
+    title.innerText = this.$options.name.toUpperCase();    
   },
 };
 </script>

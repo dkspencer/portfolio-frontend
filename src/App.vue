@@ -1,35 +1,59 @@
 <template>
-  <div class="flex flex-wrap h-screen pt-10 my-auto overflow-y-auto">
-    <div class="w-full max-w-screen-lg mx-auto h-4/5">
-      <!-- <p class="text-center bg-fg text-bg font-bold text-lg mb-5 align-middle">
-        PORTFOLIO
-      </p> -->
-
-      <vue-command
-        :built-in="builtIn"
-        :history.sync="history"
-        :is-in-progress="isInProgress"
-        :pointer="pointer"
-        :commands="commands"
-        prompt=">"
-        :hide-bar="hideBar"
-        :hide-title="hideTitle"
-        :show-help="showHelp"
-        :show-intro="showIntro"
-        intro="SHELL VERSION 1.0.0, COPYRIGHT 2021 DANIELLE SPENCER"
+  <div class="h-screen flex flex-col">
+    <header class="flex bg-bg">
+      <div
+        class="
+          w-full
+          overflow-hidden
+          max-w-screen-lg
+          mx-auto
+          mt-5
+          bg-fg
+          text-center text-bg
+          font-bold
+          text-lg
+        "
+        id="title"
       >
-      </vue-command>
+        PORTFOLIO
+      </div>
+    </header>
+
+    <div class="flex flex-1 bg-bg overflow-auto" id="terminal">
+      <div
+        class="w-full max-w-screen-lg mx-auto bg-bg"
+        v-on:click="focusTerminal"
+      >
+        <vue-command
+          :built-in="builtIn"
+          :history.sync="history"
+          :is-in-progress="isInProgress"
+          :pointer="pointer"
+          :commands="commands"
+          prompt=">"
+          :hide-bar="hideBar"
+          :hide-title="hideTitle"
+          :show-help="showHelp"
+          :show-intro="showIntro"
+          intro="SHELL VERSION 1.0.0, COPYRIGHT 2021 DANIELLE SPENCER"
+          ref="terminal"
+          class="overflow-hidden"
+        >
+        </vue-command>
+      </div>
     </div>
 
-    <div class="w-full overflow-hidden max-w-screen-lg mx-auto mt-10">
-      <div class="w-full overflow-hidden max-w-screen-lg mx-auto mt-5 bg-fg" id="footer">
+    <footer class="flex bg-bg">
+      <div
+        class="w-full overflow-hidden max-w-screen-lg mx-auto mt-5 bg-fg"
+        id="footer"
+      >
         <p class="text-bg text-xl ml-1 mr-6 px-1 invisible" id="placeholder">
           <button class="text-bg3 text-xl"></button>
           CLOSE
         </p>
-
       </div>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -77,7 +101,7 @@ export default {
     user: false,
     apikey: "8b0973a152c2b5a2caf146f34222d42c3955234d",
     data: [],
-    answer: null
+    answer: null,
   }),
   methods: {
     connect(question) {
@@ -106,11 +130,13 @@ export default {
             alert("Your API Key seems invalid, please try a different one");
           } else {
             console.log(error);
-            alert(
-              "There was an error while connecting to the API"
-            );
+            alert("There was an error while connecting to the API");
           }
         });
+    },
+
+    focusTerminal() {
+      this.$refs.terminal.focus();
     },
   },
   mounted() {

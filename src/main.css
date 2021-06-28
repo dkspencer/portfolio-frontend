@@ -150,7 +150,8 @@ body {
     margin-top: 10px
 }
 
-.vue-command .term-hist-container-fullscreen,
+
+/* .vue-command .term-hist-container-fullscreen,
 .vue-command .term-std {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -163,16 +164,13 @@ body {
     -ms-flex: 1;
     flex: 1;
     height: 600px;
-}
+} */
 
 .vue-command .term-stdout {
     word-break: normal
 }
 
 progress {
-    /* border: none; */
-    /* width: 400px;
-    height: 10%; */
     background: #504945;
 }
 
@@ -240,21 +238,18 @@ body {
     /* Firefox */
 }
 
-#description::-webkit-scrollbar {
+#terminal::-webkit-scrollbar,
+#summary::-webkit-scrollbar {
     display: none;
 }
 
 
 /* Hide scrollbar for IE, Edge and Firefox */
 
-#description {
+#terminal,
+#summary {
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
-}
-
-input {
-    text-transform: uppercase;
-    font-weight: bold;
 }

@@ -2,12 +2,11 @@
   <div
     v-if="environment.isExecuting"
     @keyup="nextItem($event)"
-    @keydown.39="nextRow"
-    class="flex flex-wrap overflow-x-hidden"
+    class="flex flex-wrap"
     v-on:click="focusTerminal"
   >
+    <!-- Introduction -->
     <div class="w-full overflow-hidden">
-      <p class="text-center bg-fg text-bg font-bold text-lg mb-2">EXPERIENCE</p>
       <textarea
         class="
           resize-none
@@ -17,7 +16,7 @@
           overflow-hidden
         "
         ref="terminal"
-        @keydown.112="destroy"
+        @keydown.ctrl.88="destroy"
         readonly
         @keyup.39="nextPage"
         @keyup.37="prevPage"
@@ -26,16 +25,17 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       >
     </div>
 
+    <!-- Data table -->
     <div class="w-full overflow-hidden">
       <table ref="table-fixed" class="table-fixed w-full mt-2">
         <thead class="bg-fg text-bg">
           <tr>
-            <th class="w-1/4 text-center">ID</th>
-            <th class="w-1/2 text-left">TITLE</th>
-            <th class="w-1/4 text-left">COMPANY</th>
-            <th class="w-1/4 text-left">COUNTRY</th>
-            <th class="w-1/4 text-left">START DATE</th>
-            <th class="w-1/4 text-left">END DATE</th>
+            <th class="w-1/4 text-center sm:text-sm">ID</th>
+            <th class="w-1/2 text-left sm:text-sm">TITLE</th>
+            <th class="w-1/4 text-left sm:text-sm">COMPANY</th>
+            <th class="w-1/4 text-left sm:text-sm">COUNTRY</th>
+            <th class="w-1/4 text-left sm:text-sm">START DATE</th>
+            <th class="w-1/4 text-left sm:text-sm">END DATE</th>
           </tr>
         </thead>
         <tbody>
@@ -70,11 +70,11 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       </table>
     </div>
 
-    <div class="w-full overflow-y-auto h-64 pb-5 my-5" id="description">
-      <!-- {{ this.example }} -->
+    <!-- Summary -->
+    <div class="w-full overflow-y-auto pb-5 my-5" id="summary">
       <template v-if="this.example">
-        <p v-if="this.example" class="font-bold text-xl">SUMMARY</p>
-        <p v-if="this.example" class="mx-10 text-justify">
+        <p class="font-bold text-xl">SUMMARY</p>
+        <p class="mx-10 text-justify">
           {{ this.example }}
         </p>
       </template>
@@ -83,12 +83,13 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
       </template>
     </div>
 
+    <!-- Actions -->
     <div
       class="flex flex-wrap overflow-hidden justify-center bg-fg"
       ref="actions"
     >
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg3 text-xl">[F1]</button>
+        <button v-on:click="destroy" class="text-bg3 text-xl">[CTRL+X]</button>
         CLOSE
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
@@ -153,7 +154,7 @@ export default {
           this.nextPageEndpoint = response.data.next;
           this.previousPageEndpoint = response.data.previous;
 
-          this.example = this.data[0];
+          this.example = this.data[0].summary;
         })
         .catch((error) => {
           if (error && error.response && error.response.status == 401) {
@@ -165,8 +166,6 @@ export default {
     },
 
     selectRow(e, index) {
-      console.log("index", index);
-      console.log("example", e);
       this.selectedRow = index;
       this.example = e.summary;
     },
@@ -223,6 +222,10 @@ export default {
       var placeholder = document.getElementById("placeholder");
       placeholder.style.display = "block";
 
+      // Revert title
+      var title = document.getElementById("title");
+      title.innerText = 'PORTFOLIO';
+
       this.terminate();
     },
   },
@@ -247,6 +250,10 @@ export default {
     document.getElementById("footer").appendChild(this.$refs.actions);
     var placeholder = document.getElementById("placeholder");
     placeholder.style.display = "none";
+
+    // Append component name to title
+    var title = document.getElementById("title")
+    title.innerText = this.$options.name.toUpperCase();    
   },
 };
 </script>
