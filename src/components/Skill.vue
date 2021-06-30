@@ -94,24 +94,24 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Actions -->
     <div
-      class="flex flex-wrap overflow-hidden justify-center bg-fg"
+      class="flex flex-wrap overflow-hidden justify-center bg-fg font-bold"
       ref="actions"
     >
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg3 text-xl">[CTRL+X]</button>
+        <button v-on:click="destroy" class="text-bg text-xl font-bold">[CTRL+X]</button>
         CLOSE
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevRow" class="text-bg3 text-xl">[↑]</button>
-        <button v-on:click="nextRow" class="text-bg3 text-xl">[↓]</button>
+        <button v-on:click="prevRow" class="text-bg text-xl font-bold">[↑]</button>
+        <button v-on:click="nextRow" class="text-bg text-xl font-bold">[↓]</button>
         SCROLL
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevPage" class="text-bg3 text-xl">[←]</button>
+        <button v-on:click="prevPage" class="text-bg text-xl font-bold">[←]</button>
         PREVIOUS
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="nextPage" class="text-bg3 text-xl">[→]</button>
+        <button v-on:click="nextPage" class="text-bg text-xl font-bold">[→]</button>
         NEXT
       </p>
     </div>
@@ -130,7 +130,7 @@ export default {
     api: false,
     endpoint: "http://localhost:8081",
     user: false,
-    apikey: "8b0973a152c2b5a2caf146f34222d42c3955234d",
+    apikey: process.env.VUE_APP_APIKEY,
     data: [],
     selectedRow: 0,
     nextPageEndpoint: "",
