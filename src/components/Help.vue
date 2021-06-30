@@ -61,8 +61,8 @@
       class="flex flex-wrap overflow-hidden justify-center bg-fg"
       ref="actions"
     >
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg3 text-xl">[CTRL+X]</button>
+      <p class="text-bg text-xl ml-1 mr-6 px-1 font-bold">
+        <button v-on:click="destroy" class="text-bg text-xl font-bold">[CTRL+X]</button>
         CLOSE
       </p>
     </div>

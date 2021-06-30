@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 body {
-    background-color: #282828 !important;
+    background-color: #3c3836 !important;
     padding: 10px;
 }
 
@@ -16,7 +16,7 @@ body {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    background: #282828;
+    background: #3c3836;
     margin: 0;
     border: 0;
     color: inherit;
@@ -32,9 +32,9 @@ body {
 
 .vue-command input,
 .vue-command textarea {
-    background: #282828;
+    background: #3c3836;
     border: none;
-    font-family: Inconsolata, monospace;
+    /* font-family: "Courier New", Courier, monospace; */
     font-size: 1rem;
     outline: none;
     -webkit-box-flex: 1;
@@ -44,8 +44,8 @@ body {
 }
 
 .vue-command input[type="submit"] {
-    background: #c0d2d6;
-    color: #282828;
+    background: #3c3836;
+    color: #deb15a;
 }
 
 .vue-command input[type="submit"]:hover {
@@ -98,7 +98,7 @@ body {
 .vue-command input,
 .vue-command span,
 .vue-command textarea {
-    color: #EBDBB2
+    color: #deb15a
 }
 
 
@@ -108,8 +108,8 @@ body {
 } */
 
 .vue-command .term-bar {
-    background: #282828;
-    border-bottom: 1px solid #282828;
+    background: #3c3836;
+    border-bottom: 1px solid #3c3836;
     display: block;
     height: 32px;
     -webkit-box-pack: center;
@@ -129,18 +129,18 @@ body {
 }
 
 .vue-command .term-std {
-    background: #282828;
+    background: #3c3836;
     display: block;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
     flex-direction: column;
     width: 100%;
-    border: 0 solid #282828
+    border: 0 solid #3c3836
 }
 
 .vue-command .term-cont {
-    font-family: Inconsolata, monospace;
+    /* font-family: "Courier New", Courier, monospace; */
     padding-left: .5rem;
     padding-right: .5rem;
     padding-bottom: .5rem;
@@ -175,7 +175,7 @@ progress {
 }
 
 progress::-moz-progress-bar {
-    background: #d5c4a1;
+    background: #7c6f64;
 }
 
 textarea {
@@ -209,11 +209,12 @@ textarea {
 }
 
 .custom.char.typed {
-    color: #EBDBB2;
+    color: #deb15a;
 }
 
 .active-item {
-    background-color: #7c6f64;
+    background-color: #deb15a;
+    color: #3c3836;
 }
 
 body {
