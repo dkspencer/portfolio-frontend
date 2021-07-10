@@ -52,7 +52,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
               ></progress>
             </td>
           </tr>
-          <tr v-for="index in padRows" :key="index">
+          <tr v-for="index in padRows" :key="'A' + index">
             <td>
               <p class="invisible">{{ index }}</p>
             </td>
