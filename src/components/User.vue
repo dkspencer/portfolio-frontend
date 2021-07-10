@@ -104,7 +104,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
         <p class="mx-10 text-justify">
           {{ this.example.profile.summary }}
         </p>
-        <template v-for="link in this.example.link">
+        <template v-for="link in this.example.links">
           <p class="font-bold text-xl" :key="link.name">{{ link.name }}</p>
           <a
             :href="link.url"
@@ -119,24 +119,24 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Actions -->
     <div
-      class="flex flex-wrap overflow-hidden justify-center bg-fg"
+      class="flex flex-wrap overflow-hidden justify-center bg-fg font-bold"
       ref="actions"
     >
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg2 text-xl">[CTRL+X]</button>
+        <button v-on:click="destroy" class="text-bg text-xl font-bold">[CTRL+X]</button>
         CLOSE
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevRow" class="text-bg2 text-xl">[↑]</button>
-        <button v-on:click="nextRow" class="text-bg2 text-xl">[↓]</button>
+        <button v-on:click="prevRow" class="text-bg text-xl font-bold">[↑]</button>
+        <button v-on:click="nextRow" class="text-bg text-xl font-bold">[↓]</button>
         SCROLL
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevPage" class="text-bg2 text-xl">[←]</button>
+        <button v-on:click="prevPage" class="text-bg text-xl font-bold">[←]</button>
         PREVIOUS
       </p>
       <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="nextPage" class="text-bg2 text-xl">[→]</button>
+        <button v-on:click="nextPage" class="text-bg text-xl font-bold">[→]</button>
         NEXT
       </p>
     </div>
