@@ -93,7 +93,7 @@ export default {
     showHelp: true,
     showIntro: false,
     api: false,
-    endpoint: "http://localhost:8081",
+    endpoint: process.env.VUE_APP_ENDPOINT,
     user: false,
     timeNow: "",
   }),

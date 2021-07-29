@@ -128,7 +128,7 @@ export default {
   components: {},
   data: () => ({
     api: false,
-    endpoint: "http://localhost:8081",
+    endpoint: process.env.VUE_APP_ENDPOINT,
     user: false,
     apikey: process.env.VUE_APP_APIKEY,
     data: [],
