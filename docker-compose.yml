@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  frontend:
+    container_name: frontend
+    build: .
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: "${VIRTUAL_HOST}"
+      LETSENCRYPT_HOST: "${LETSENCRYPT_HOST}"
+      LETSENCRYPT_EMAIL: "${LETSENCRYPT_EMAIL}"
+    ports:
+      - "8080:80"
+    expose:
+      - "80"
+    networks:
+      - portfolio_network
+
+networks:
+  portfolio_network:
+    external: true
