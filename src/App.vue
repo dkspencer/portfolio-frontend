@@ -132,6 +132,10 @@ export default {
       window.open("/DanielleSpencer.pdf", "_blank");
       return createStdout("CV opened in new tab")
     };
+    this.commands.documentation = () => {
+      window.open(process.env.VUE_APP_ENDPOINT + "/documentation", "_blank");
+      return createStdout("Documentation opened in new tab")
+    };
   },
 };
 </script>
