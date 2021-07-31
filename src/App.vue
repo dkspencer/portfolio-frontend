@@ -128,6 +128,10 @@ export default {
       this.history = [];
       return createDummyStdout();
     };
+    this.commands.download = () => {
+      window.open("/DanielleSpencer.pdf", "_blank");
+      return createStdout("CV opened in new tab")
+    };
   },
 };
 </script>
