@@ -53,6 +53,8 @@
         <p class="mx-10 text-justify">Download a copy of my CV</p>
         <p class="font-bold text-xl">clear</p>
         <p class="mx-10 text-justify">Clear the terminal screen</p>
+        <p class="font-bold text-xl">documentation</p>
+        <p class="mx-10 text-justify">Open the API documentation</p>
       </div>
     </div>
 
