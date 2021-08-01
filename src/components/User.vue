@@ -34,7 +34,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
         <thead class="bg-fg text-bg text-sm md:text-base">
           <tr>
             <th class="text-center hidden md:table-cell">ID</th>
-            <th class="text-left">FIRST NAME</th>
+            <th class="text-left pl-2 md:pl-0">FIRST NAME</th>
             <th class="text-left">LAST NAME</th>
             <th class="text-left hidden md:table-cell">AGE</th>
             <th class="text-left">CITY</th>
@@ -49,7 +49,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
             v-on:click="selectRow(e, index)"
           >
             <td class="text-center hidden md:table-cell">{{ e.id }}</td>
-            <td class="text-left">{{ e.profile.first_name }}</td>
+            <td class="text-left pl-2 md:pl-0">{{ e.profile.first_name }}</td>
             <td class="text-left">{{ e.profile.last_name }}</td>
             <td class="text-left hidden md:table-cell">
               {{ calculateAge(e.profile.date_of_birth) }}
@@ -76,7 +76,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Summary -->
     <div v-if="showProfile" class="flex flex-wrap overflow-hidden">
-      <div class="w-1/4 overflow-hidden sm:w-1/4 md:w-1/4 lg:w-1/4 xl:w-1/4">
+      <div class="w-1/4 overflow-hidden">
         <img
           src="https://avatars1.githubusercontent.com/u/32540965?s=460&v=4"
           alt="An awesome picture of me"
@@ -84,7 +84,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
         />
       </div>
 
-      <div class="w-3/4 sm:w-3/4 md:w-3/4 lg:w-3/4 xl:w-3/4 pl-2" id="summary">
+      <div class="w-3/4 pl-2" id="summary">
         <p class="font-bold text-md md:text-xl">EMAIL ADDRESS</p>
         <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
           <a :href="'mailto:' + this.example.profile.email_address">{{ this.example.profile.email_address }}</a>

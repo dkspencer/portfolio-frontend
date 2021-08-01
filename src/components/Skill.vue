@@ -34,11 +34,11 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
         <thead class="bg-fg text-bg text-sm md:text-base">
           <tr>
             <th class="text-center hidden md:table-cell">ID</th>
-            <th class="text-left">NAME</th>
-            <th class="text-right px-2">CONFIDENCE</th>
+            <th class="text-left pl-2 md:pl-0">NAME</th>
+            <th class="text-right pr-2 md:pr-0 md:text-left">CONFIDENCE</th>
           </tr>
         </thead>
-        <tbody  class="text-sm md:text-base">
+        <tbody class="text-sm md:text-base">
           <tr
             v-for="(e, index) in data"
             :key="e.id"
@@ -46,8 +46,8 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
             v-on:click="selectRow(e, index)"
           >
             <td class="text-center hidden md:table-cell">{{ e.id }}</td>
-            <td class="text-left">{{ e.name }}</td>
-            <td class="text-right px-2">
+            <td class="text-left pl-2 md:pl-0">{{ e.name }}</td>
+            <td class="text-right pr-2 md:pr-0 md:text-left">
               <progress
                 :value="e.confidence"
                 max="10"
@@ -95,7 +95,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
         </div>
       </template>
       <template v-else>
-        <p>No example</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">No example</p>
       </template>
     </div>
 

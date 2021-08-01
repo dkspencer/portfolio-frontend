@@ -8,11 +8,13 @@
           overflow-hidden
           max-w-screen-lg
           mx-auto
+          pt-5 md:pt-0
           mt-5
           bg-fg
           text-center text-bg
           font-bold
-          text-lg
+          text-sm
+          md:text-lg
         "
       >
         <div>{{ currentDate() }}</div>
@@ -38,7 +40,7 @@
           :show-intro="showIntro"
           intro="SHELL VERSION 1.0.0, COPYRIGHT 2021 DANIELLE SPENCER"
           ref="terminal"
-          class="overflow-hidden"
+          class="overflow-hidden text-sm md:text-base"
         >
         </vue-command>
       </div>
@@ -49,7 +51,7 @@
         class="w-full overflow-hidden max-w-screen-lg mx-auto mt-5 bg-fg"
         id="footer"
       >
-        <p class="text-bg text-xl ml-1 mr-6 px-1 invisible" id="placeholder">
+        <p class="text-bg text-sm md:text-xl ml-1 mr-6 px-1 invisible" id="placeholder">
           <button class="text-bg text-xl"></button>
           CLOSE
         </p>

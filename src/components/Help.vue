@@ -6,11 +6,11 @@
   >
     <!-- Title and description -->
     <div class="w-full overflow-hidden">
-      <p class="text-center font-bold">
+      <p class="text-center font-bold text-sm md:text-base">
         ©{{ new Date().getFullYear() }} Danielle Spencer
       </p>
 
-      <p class="text-fg text-justify px-5 py-5">
+      <p class="text-fg text-justify p-2 text-sm md:text-base">
         My portfolio takes inspiration from retro UNIX and MS-DOS terminals (and
         as such, commands are case sensitive). Try typing in one of the
         following commands to view the related information about me. For
@@ -25,7 +25,10 @@
           resize-none
           cursor-default
           text-fg text-center
-          h-5
+          break-words
+          text-sm
+          md:text-base
+          md:h-5
           overflow-hidden
         "
         ref="terminal"
@@ -37,34 +40,42 @@
     </div>
 
     <!-- Commands -->
-    <div class="w-full overflow-y-auto pb-5 my-5">
+    <div class="w-full overflow-y-auto p-2 text-sm md:text-base">
       <div class="" id="summary">
-        <p class="font-bold text-xl">experience</p>
-        <p class="mx-10 text-justify">View a history of my jobs</p>
-        <p class="font-bold text-xl">skills</p>
-        <p class="mx-10 text-justify">View a list of my skills</p>
-        <p class="font-bold text-xl">education</p>
-        <p class="mx-10 text-justify">View a history of my education</p>
-        <p class="font-bold text-xl">users</p>
-        <p class="mx-10 text-justify">
+        <p class="font-bold text-md md:text-xl">experience</p>
+        <p class="mx-5 text-sm md:text-base">View a history of my jobs</p>
+        <p class="font-bold text-md md:text-xl">skills</p>
+        <p class="mx-5 text-sm md:text-base">View a list of my skills</p>
+        <p class="font-bold text-md md:text-xl">education</p>
+        <p class="mx-5 text-sm md:text-base">View a history of my education</p>
+        <p class="font-bold text-md md:text-xl">users</p>
+        <p class="mx-5 text-sm md:text-base">
           Read more about me, including how to contact me
         </p>
-        <p class="font-bold text-xl">download</p>
-        <p class="mx-10 text-justify">Download a copy of my CV</p>
-        <p class="font-bold text-xl">clear</p>
-        <p class="mx-10 text-justify">Clear the terminal screen</p>
-        <p class="font-bold text-xl">documentation</p>
-        <p class="mx-10 text-justify">Open the API documentation</p>
+        <p class="font-bold text-md md:text-xl">download</p>
+        <p class="mx-5 text-sm md:text-base">Download a copy of my CV</p>
+        <p class="font-bold text-md md:text-xl">clear</p>
+        <p class="mx-5 text-sm md:text-base">Clear the terminal screen</p>
+        <p class="font-bold text-md md:text-xl">documentation</p>
+        <p class="mx-5 text-sm md:text-base">Open the API documentation</p>
       </div>
     </div>
 
     <!-- Actions -->
     <div
-      class="flex flex-wrap overflow-hidden justify-center bg-fg"
+      class="
+        flex flex-wrap
+        overflow-hidden
+        justify-center
+        bg-fg
+        font-bold
+        text-sm
+        md:text-xl
+      "
       ref="actions"
     >
-      <p class="text-bg text-xl ml-1 mr-6 px-1 font-bold">
-        <button v-on:click="destroy" class="text-bg text-xl font-bold">[CTRL+X]</button>
+      <p class="text-bg ml-1 mr-6 px-1 font-bold">
+        <button v-on:click="destroy" class="text-bg font-bold">[CTRL+X]</button>
         CLOSE
       </p>
     </div>
