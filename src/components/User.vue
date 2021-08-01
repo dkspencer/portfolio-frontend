@@ -12,7 +12,10 @@
           resize-none
           cursor-default
           text-fg text-center
-          h-5
+          break-words
+          text-sm
+          md:text-base
+          md:h-5
           overflow-hidden
         "
         ref="terminal"
@@ -27,28 +30,28 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Data table -->
     <div class="w-full overflow-hidden">
-      <table ref="table-fixed" class="table-fixed w-full mt-2">
-        <thead class="bg-fg text-bg">
+      <table ref="table-fixed" class="table-fixed min-w-full mt-2">
+        <thead class="bg-fg text-bg text-sm md:text-base">
           <tr>
-            <th class="text-center">ID</th>
+            <th class="text-center hidden md:table-cell">ID</th>
             <th class="text-left">FIRST NAME</th>
             <th class="text-left">LAST NAME</th>
-            <th class="text-left">AGE</th>
+            <th class="text-left hidden md:table-cell">AGE</th>
             <th class="text-left">CITY</th>
             <th class="text-left">COUNTRY</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-sm md:text-base">
           <tr
             v-for="(e, index) in data"
             :key="e.id"
             :class="{ 'active-item': selectedRow === index }"
             v-on:click="selectRow(e, index)"
           >
-            <td class="text-center">{{ e.id }}</td>
+            <td class="text-center hidden md:table-cell">{{ e.id }}</td>
             <td class="text-left">{{ e.profile.first_name }}</td>
             <td class="text-left">{{ e.profile.last_name }}</td>
-            <td class="text-left">
+            <td class="text-left hidden md:table-cell">
               {{ calculateAge(e.profile.date_of_birth) }}
             </td>
             <td class="text-left">{{ e.profile.city }}</td>
@@ -60,10 +63,10 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
             </td>
           </tr>
         </tbody>
-        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold">
+        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold text-sm md:text-base">
           <tr>
             <td class="text-left pl-2">TOTAL: {{ this.total }}</td>
-            <td colspan="5">
+            <td colspan="5" class="pr-2">
               SHOWING PAGE {{ currentPage }} OF {{ calculateShowing }}
             </td>
           </tr>
@@ -81,34 +84,27 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
         />
       </div>
 
-      <div
-        class="
-          w-3/4
-          sm:w-3/4
-          md:w-3/4
-          lg:w-3/4
-          xl:w-3/4
-          pl-2
-        "
-        id="summary"
-      >
-        <p class="font-bold text-xl">EMAIL ADDRESS</p>
-        <p class="mx-10 text-justify">
-          {{ this.example.profile.email_address }}
+      <div class="w-3/4 sm:w-3/4 md:w-3/4 lg:w-3/4 xl:w-3/4 pl-2" id="summary">
+        <p class="font-bold text-md md:text-xl">EMAIL ADDRESS</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
+          <a :href="'mailto:' + this.example.profile.email_address">{{ this.example.profile.email_address }}</a>
+          
         </p>
-        <p class="font-bold text-xl">PHONE NUMBER</p>
-        <p class="mx-10 text-justify">
+        <p class="font-bold text-md md:text-xl">PHONE NUMBER</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
           {{ this.example.profile.phone_number }}
         </p>
-        <p class="font-bold text-xl">SUMMARY</p>
-        <p class="mx-10 text-justify">
+        <p class="font-bold text-md md:text-xl">SUMMARY</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
           {{ this.example.profile.summary }}
         </p>
         <template v-for="link in this.example.links">
-          <p class="font-bold text-xl" :key="link.name">{{ link.name }}</p>
+          <p class="font-bold text-md md:text-xl" :key="link.name">
+            {{ link.name }}
+          </p>
           <a
             :href="link.url"
-            class="mx-10 underline tracking-wide"
+            class="ml-5 mr-1 md:mx-10 underline tracking-wide text-sm md:text-base"
             target="_blank"
             :key="link.url"
             >{{ link.url }}</a
@@ -119,24 +115,32 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Actions -->
     <div
-      class="flex flex-wrap overflow-hidden justify-center bg-fg font-bold"
+      class="
+        flex flex-wrap
+        overflow-hidden
+        justify-center
+        bg-fg
+        font-bold
+        text-sm
+        md:text-xl
+      "
       ref="actions"
     >
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg text-xl font-bold">[CTRL+X]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="destroy" class="text-bg font-bold">[CTRL+X]</button>
         CLOSE
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevRow" class="text-bg text-xl font-bold">[↑]</button>
-        <button v-on:click="nextRow" class="text-bg text-xl font-bold">[↓]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevRow" class="text-bg font-bold">[↑]</button>
+        <button v-on:click="nextRow" class="text-bg font-bold">[↓]</button>
         SCROLL
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevPage" class="text-bg text-xl font-bold">[←]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevPage" class="text-bg font-bold">[←]</button>
         PREVIOUS
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="nextPage" class="text-bg text-xl font-bold">[→]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="nextPage" class="text-bg font-bold">[→]</button>
         NEXT
       </p>
     </div>
@@ -150,8 +154,7 @@ export default {
   name: "Users",
   inject: ["setIsFullscreen", "terminate"],
 
-  components: {
-  },
+  components: {},
   data: () => ({
     api: false,
     endpoint: process.env.VUE_APP_ENDPOINT,
@@ -166,7 +169,7 @@ export default {
     currentPage: 1,
     rows: 10,
     showProfile: false,
-    example: {}
+    example: {},
   }),
 
   methods: {
@@ -214,7 +217,7 @@ export default {
         this.example = this.data[this.selectedRow];
       }
     },
-    
+
     prevRow() {
       if (this.selectedRow > 0) {
         this.selectedRow--;
@@ -237,7 +240,7 @@ export default {
         this.selectedRow = 0;
       }
     },
-    
+
     prevPage() {
       if (this.previousPageEndpoint) {
         var endpoint = "user?" + this.previousPageEndpoint.split("?")[1];
@@ -279,7 +282,7 @@ export default {
 
       // Revert title
       var title = document.getElementById("title");
-      title.innerText = 'PORTFOLIO';
+      title.innerText = "PORTFOLIO";
 
       this.terminate();
     },
@@ -307,8 +310,8 @@ export default {
     placeholder.style.display = "none";
 
     // Append component name to title
-    var title = document.getElementById("title")
-    title.innerText = this.$options.name.toUpperCase();    
+    var title = document.getElementById("title");
+    title.innerText = this.$options.name.toUpperCase();
   },
 };
 </script>
