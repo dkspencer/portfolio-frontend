@@ -12,7 +12,10 @@
           resize-none
           cursor-default
           text-fg text-center
-          h-5
+          break-words
+          text-sm
+          md:text-base
+          md:h-5
           overflow-hidden
         "
         ref="terminal"
@@ -27,30 +30,30 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Data table -->
     <div class="w-full overflow-hidden">
-      <table ref="table-auto" class="table-fixed w-full mt-2">
-        <thead class="bg-fg text-bg">
+      <table ref="table-auto" class="table-fixed min-w-full mt-2">
+        <thead class="bg-fg text-bg text-sm md:text-base">
           <tr>
-            <th class="text-center px-2">ID</th>
-            <th class="text-left px-2">DEGREE</th>
-            <th class="text-left px-2">UNIVERSITY</th>
-            <th class="text-left">COUNTRY</th>
-            <th class="text-left">START DATE</th>
-            <th class="text-left">END DATE</th>
+            <th class="text-center hidden md:table-cell">ID</th>
+            <th class="text-left pl-2 md:pl-0">DEGREE</th>
+            <th class="text-left">UNIVERSITY</th>
+            <th class="text-left hidden md:table-cell">COUNTRY</th>
+            <th class="text-left hidden md:table-cell px-5">START DATE</th>
+            <th class="text-left hidden md:table-cell px-5">END DATE</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-sm md:text-base">
           <tr
             v-for="(e, index) in data"
             :key="e.id"
             :class="{ 'active-item': selectedRow === index }"
             v-on:click="selectRow(e, index)"
           >
-            <td class="text-center px-2">{{ e.id }}</td>
-            <td class="text-left px-2">{{ e.degree }}</td>
+            <td class="text-center hidden md:table-cell">{{ e.id }}</td>
+            <td class="text-left pl-2 md:pl-0">{{ e.degree }}</td>
             <td class="text-left">{{ e.university }}</td>
-            <td class="text-left">{{ e.country }}</td>
-            <td class="text-left">{{ e.start_date }}</td>
-            <td class="text-left">{{ e.end_date }}</td>
+            <td class="text-left hidden md:table-cell">{{ e.country }}</td>
+            <td class="text-left hidden md:table-cell px-5">{{ e.start_date }}</td>
+            <td class="text-left hidden md:table-cell px-5">{{ e.end_date }}</td>
           </tr>
           <tr v-for="i in padRows" :key="i + 1">
             <td>
@@ -58,10 +61,10 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
             </td>
           </tr>
         </tbody>
-        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold">
+        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold text-sm md:text-base">
           <tr>
             <td class="text-left pl-2">TOTAL: {{ this.total }}</td>
-            <td colspan="5">
+            <td colspan="5" class="pr-2">
               SHOWING PAGE {{ currentPage }} OF {{ calculateShowing }}
             </td>
           </tr>
@@ -70,53 +73,59 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
     </div>
 
     <!-- Summary -->
-    <div class="w-full overflow-y-auto pb-5 my-5" id="summary">
+    <div class="w-full overflow-y-auto" id="summary">
       <template v-if="this.example">
-        <p class="font-bold text-xl">SUMMARY</p>
-        <p class="mx-10 text-justify">
+        <p class="font-bold text-md md:text-xl">SUMMARY</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
           {{ this.example.summary }}
         </p>
       </template>
       <template v-else>
-        <p>No example</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">No example</p>
       </template>
       <template v-if="this.project">
-        <p class="font-bold text-xl">EXAMPLE</p>
-        <p class="mx-10 text-justify">
+        <p class="font-bold text-md md:text-xl">EXAMPLE</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
           {{ this.project.summary }}
         </p>
-        <p class="mx-10 font-bold text-xl">URL</p>
-        <p class="ml-20 text-justify">
-          <a
-            :href="this.project.url"
-            class="underline tracking-wide"
-            target="_blank"
-            >{{ this.project.url }}</a
-          >
-        </p>
+        <p class="font-bold text-md md:text-xl">URL</p>
+        <a
+          :href="this.project.url"
+          class="ml-5 mr-1 md:mx-10 underline tracking-wide text-sm md:text-base"
+          target="_blank"
+          >{{ this.project.url }}</a
+        >
       </template>
     </div>
 
     <!-- Actions -->
     <div
-      class="flex flex-wrap overflow-hidden justify-center bg-fg font-bold"
+      class="
+        flex flex-wrap
+        overflow-hidden
+        justify-center
+        bg-fg
+        font-bold
+        text-sm
+        md:text-xl
+      "
       ref="actions"
     >
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg2 text-xl font-bold">[CTRL+X]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="destroy" class="text-bg2 font-bold">[CTRL+X]</button>
         CLOSE
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevRow" class="text-bg2 text-xl font-bold">[↑]</button>
-        <button v-on:click="nextRow" class="text-bg2 text-xl font-bold">[↓]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevRow" class="text-bg2 font-bold">[↑]</button>
+        <button v-on:click="nextRow" class="text-bg2 font-bold">[↓]</button>
         SCROLL
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevPage" class="text-bg2 text-xl font-bold">[←]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevPage" class="text-bg2 font-bold">[←]</button>
         PREVIOUS
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="nextPage" class="text-bg2 text-xl font-bold">[→]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="nextPage" class="text-bg2 font-bold">[→]</button>
         NEXT
       </p>
     </div>

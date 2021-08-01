@@ -12,7 +12,10 @@
           resize-none
           cursor-default
           text-fg text-center
-          h-5
+          break-words
+          text-sm
+          md:text-base
+          md:h-5
           overflow-hidden
         "
         ref="terminal"
@@ -27,31 +30,31 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Data table -->
     <div class="w-full overflow-hidden">
-      <table ref="table-fixed" class="table-fixed w-full mt-2">
-        <thead class="bg-fg text-bg">
+      <table ref="table-fixed" class="table-fixed min-w-full mt-2">
+        <thead class="bg-fg text-bg text-sm md:text-base">
           <tr>
-            <th class="w-1/4 text-center sm:text-sm">ID</th>
-            <th class="w-1/2 text-left sm:text-sm">TITLE</th>
-            <th class="w-1/4 text-left sm:text-sm">COMPANY</th>
-            <th class="w-1/4 text-left sm:text-sm">COUNTRY</th>
-            <th class="w-1/4 text-left sm:text-sm">START DATE</th>
-            <th class="w-1/4 text-left sm:text-sm">END DATE</th>
+            <th class="text-center hidden md:table-cell">ID</th>
+            <th class="text-left pl-2 md:pl-0">TITLE</th>
+            <th class="text-right pr-2 md:pr-0 md:text-left">COMPANY</th>
+            <th class="text-left hidden md:table-cell">COUNTRY</th>
+            <th class="text-left hidden md:table-cell">START DATE</th>
+            <th class="text-left hidden md:table-cell">END DATE</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="text-sm md:text-base">
           <tr
             v-for="(e, index) in data"
             :key="e.id"
             :class="{ 'active-item': selectedRow === index }"
             v-on:click="selectRow(e, index)"
           >
-            <td class="text-center">{{ e.id }}</td>
-            <td class="text-left">{{ e.title }}</td>
-            <td class="text-left">{{ e.company }}</td>
-            <td class="text-left">{{ e.country }}</td>
-            <td class="text-left">{{ e.start_date }}</td>
-            <td class="text-left" v-if="e.end_date">{{ e.end_date }}</td>
-            <td class="text-left" v-else>PRESENT</td>
+            <td class="text-center hidden md:table-cell">{{ e.id }}</td>
+            <td class="text-left pl-2 md:pl-0">{{ e.title }}</td>
+            <td class="text-right pr-2 md:pr-0 md:text-left">{{ e.company }}</td>
+            <td class="text-left hidden md:table-cell">{{ e.country }}</td>
+            <td class="text-left hidden md:table-cell">{{ e.start_date }}</td>
+            <td class="text-left hidden md:table-cell" v-if="e.end_date">{{ e.end_date }}</td>
+            <td class="text-left hidden md:table-cell" v-else>PRESENT</td>
           </tr>
           <tr v-for="index in padRows" :key="index + '1'">
             <td>
@@ -59,10 +62,10 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
             </td>
           </tr>
         </tbody>
-        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold">
+        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold text-sm md:text-base">
           <tr>
             <td class="text-left pl-2">TOTAL: {{ this.total }}</td>
-            <td colspan="5">
+            <td colspan="5" class="pr-2">
               SHOWING PAGE {{ currentPage }} OF {{ calculateShowing }}
             </td>
           </tr>
@@ -71,10 +74,10 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
     </div>
 
     <!-- Summary -->
-    <div class="w-full overflow-y-auto pb-5 my-5" id="summary">
+    <div class="w-full overflow-y-auto" id="summary">
       <template v-if="this.example">
-        <p class="font-bold text-xl">SUMMARY</p>
-        <p class="mx-10 text-justify">
+        <p class="font-bold text-md md:text-xl">SUMMARY</p>
+        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
           {{ this.example }}
         </p>
       </template>
@@ -85,24 +88,32 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Actions -->
     <div
-      class="flex flex-wrap overflow-hidden justify-center bg-fg"
+      class="
+        flex flex-wrap
+        overflow-hidden
+        justify-center
+        bg-fg
+        font-bold
+        text-sm
+        md:text-xl
+      "
       ref="actions"
     >
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg2 text-xl">[CTRL+X]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="destroy" class="text-bg2">[CTRL+X]</button>
         CLOSE
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevRow" class="text-bg2 text-xl">[↑]</button>
-        <button v-on:click="nextRow" class="text-bg2 text-xl">[↓]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevRow" class="text-bg2">[↑]</button>
+        <button v-on:click="nextRow" class="text-bg2">[↓]</button>
         SCROLL
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevPage" class="text-bg2 text-xl">[←]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevPage" class="text-bg2">[←]</button>
         PREVIOUS
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="nextPage" class="text-bg2 text-xl">[→]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="nextPage" class="text-bg2">[→]</button>
         NEXT
       </p>
     </div>
