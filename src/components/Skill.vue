@@ -12,7 +12,10 @@
           resize-none
           cursor-default
           text-fg text-center
-          h-5
+          break-words
+          text-sm
+          md:text-base
+          md:h-5
           overflow-hidden
         "
         ref="terminal"
@@ -27,22 +30,22 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Data table -->
     <div class="w-full overflow-hidden">
-      <table ref="table-fixed" class="table-fixed w-full mt-2">
-        <thead class="bg-fg text-bg">
+      <table ref="table-fixed" class="table-fixed min-w-full mt-2">
+        <thead class="bg-fg text-bg text-sm md:text-base">
           <tr>
-            <th class="w-1/4 text-center">ID</th>
-            <th class="w-1/2 text-left">NAME</th>
-            <th class="w-1/2 text-right px-10">CONFIDENCE</th>
+            <th class="text-center hidden md:table-cell">ID</th>
+            <th class="text-left">NAME</th>
+            <th class="text-right px-2">CONFIDENCE</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody  class="text-sm md:text-base">
           <tr
             v-for="(e, index) in data"
             :key="e.id"
             :class="{ 'active-item': selectedRow === index }"
             v-on:click="selectRow(e, index)"
           >
-            <td class="text-center">{{ e.id }}</td>
+            <td class="text-center hidden md:table-cell">{{ e.id }}</td>
             <td class="text-left">{{ e.name }}</td>
             <td class="text-right px-2">
               <progress
@@ -58,7 +61,7 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
             </td>
           </tr>
         </tbody>
-        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold">
+        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold text-sm md:text-base">
           <tr>
             <td class="text-left pl-2">TOTAL: {{ this.total }}</td>
             <td colspan="2" class="pr-2">
@@ -70,22 +73,26 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
     </div>
 
     <!-- Summary -->
-    <div class="w-full overflow-y-auto pb-5 my-5" id="summary">
+    <div class="flex flex-wrap overflow-hidden" id="summary">
       <template v-if="this.example">
-        <p class="font-bold text-xl">SUMMARY</p>
-        <p class="mx-10 text-justify">
-          {{ this.example.summary }}
-        </p>
+        <div v-if="this.icon" class="w-1/4 overflow-hidden">
+          <i :class="this.icon" class="object-contain flex my-2 fa-10x justify-center"></i>
+        </div>
 
-        <p class="font-bold text-xl">URL</p>
-        <p class="mx-10 text-justify">
+        <div :class="{ 'w-3/4 pl-2': this.icon}">
+          <p class="font-bold text-base md:text-xl">SUMMARY</p>
+          <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
+            {{ this.example.summary }}
+          </p>
+
+          <p class="font-bold text-base md:text-xl">URL</p>
           <a
             :href="this.example.url"
-            class="underline tracking-wide"
+            class="ml-5 mr-1 md:mx-10 underline tracking-wide text-sm md:text-base"
             target="_blank"
             >{{ this.example.url }}</a
           >
-        </p>
+        </div>
       </template>
       <template v-else>
         <p>No example</p>
@@ -94,24 +101,32 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 
     <!-- Actions -->
     <div
-      class="flex flex-wrap overflow-hidden justify-center bg-fg font-bold"
+      class="
+        flex flex-wrap
+        overflow-hidden
+        justify-center
+        bg-fg
+        font-bold
+        text-sm
+        md:text-xl
+      "
       ref="actions"
     >
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg text-xl font-bold">[CTRL+X]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="destroy" class="text-bg font-bold">[CTRL+X]</button>
         CLOSE
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevRow" class="text-bg text-xl font-bold">[↑]</button>
-        <button v-on:click="nextRow" class="text-bg text-xl font-bold">[↓]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevRow" class="text-bg font-bold">[↑]</button>
+        <button v-on:click="nextRow" class="text-bg font-bold">[↓]</button>
         SCROLL
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="prevPage" class="text-bg text-xl font-bold">[←]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="prevPage" class="text-bg font-bold">[←]</button>
         PREVIOUS
       </p>
-      <p class="text-bg text-xl ml-1 mr-6 px-1">
-        <button v-on:click="nextPage" class="text-bg text-xl font-bold">[→]</button>
+      <p class="text-bg ml-1 mr-6 px-1">
+        <button v-on:click="nextPage" class="text-bg font-bold">[→]</button>
         NEXT
       </p>
     </div>
@@ -140,6 +155,7 @@ export default {
     currentPage: 1,
     rows: 10,
     example: {},
+    icon: false,
   }),
 
   methods: {
@@ -164,6 +180,7 @@ export default {
           this.previousPageEndpoint = response.data.previous;
 
           this.example = this.data[0].example;
+          this.icon = this.data[0].icon;
         })
         .catch((error) => {
           if (error && error.response && error.response.status == 401) {
@@ -177,12 +194,14 @@ export default {
     selectRow(e, index) {
       this.selectedRow = index;
       this.example = e.example;
+      this.icon = e.icon;
     },
 
     nextRow() {
       if (this.selectedRow < this.maxRows) {
         this.selectedRow++;
         this.example = this.data[this.selectedRow].example;
+        this.icon = this.data[this.selectedRow].icon
       }
     },
 
@@ -190,6 +209,7 @@ export default {
       if (this.selectedRow > 0) {
         this.selectedRow--;
         this.example = this.data[this.selectedRow].example;
+        this.icon = this.data[this.selectedRow].icon
       }
     },
 
