@@ -4,6 +4,8 @@
 body {
     background-color: #3c3836 !important;
     padding: 10px;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .vue-command .term-search-container {
@@ -30,8 +32,7 @@ body {
     display: flex
 }
 
-.vue-command input,
-.vue-command textarea {
+.vue-command input, .vue-command textarea {
     background: #3c3836;
     border: none;
     /* font-family: "Courier New", Courier, monospace; */
@@ -46,34 +47,30 @@ body {
 .vue-command input[type="submit"] {
     background: #3c3836;
     color: #deb15a;
+    text-shadow: 0 0 2px #C79F51;
 }
 
 .vue-command input[type="submit"]:hover {
     background: #9dafb3;
 }
 
-.vue-command input::-webkit-input-placeholder,
-.vue-command textarea::-webkit-input-placeholder {
+.vue-command input::-webkit-input-placeholder, .vue-command textarea::-webkit-input-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input::-moz-placeholder,
-.vue-command textarea::-moz-placeholder {
+.vue-command input::-moz-placeholder, .vue-command textarea::-moz-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input:-ms-input-placeholder,
-.vue-command textarea:-ms-input-placeholder {
+.vue-command input:-ms-input-placeholder, .vue-command textarea:-ms-input-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input::-ms-input-placeholder,
-.vue-command textarea::-ms-input-placeholder {
+.vue-command input::-ms-input-placeholder, .vue-command textarea::-ms-input-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input::placeholder,
-.vue-command textarea::placeholder {
+.vue-command input::placeholder, .vue-command textarea::placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
@@ -93,14 +90,10 @@ body {
     margin-right: .5rem
 }
 
-.vue-command,
-.vue-command a,
-.vue-command input,
-.vue-command span,
-.vue-command textarea {
-    color: #deb15a
+.vue-command, .vue-command a, .vue-command input, .vue-command span, .vue-command textarea {
+    color: #deb15a;
+    text-shadow: 0 0 2px #C79F51;
 }
-
 
 /* .vue-command {
     overflow-y: hidden;
@@ -149,7 +142,6 @@ body {
     flex: 1;
     margin-top: 10px
 }
-
 
 /* .vue-command .term-hist-container-fullscreen,
 .vue-command .term-std {
@@ -210,25 +202,20 @@ textarea {
 
 .custom.char.typed {
     color: #deb15a;
+    text-shadow: 0 0 2px #C79F51;
 }
 
 .active-item {
     background-color: #deb15a;
     color: #3c3836;
+    text-shadow: 0 0 1px #0C0B0A;
 }
-
-body {
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 
 .no-scrollbar::-webkit-scrollbar {
     display: none !important;
 }
-
 
 /* Hide scrollbar for IE, Edge and Firefox */
 
@@ -239,18 +226,61 @@ body {
     /* Firefox */
 }
 
-#terminal::-webkit-scrollbar,
-#summary::-webkit-scrollbar {
+#terminal::-webkit-scrollbar, #summary::-webkit-scrollbar {
     display: none;
 }
 
-
 /* Hide scrollbar for IE, Edge and Firefox */
 
-#terminal,
-#summary {
+#terminal, #summary {
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
+}
+
+html:before {
+    animation: grain 2s steps(10) infinite;
+    background-image: url('/noise.png');
+    content: "";
+    height: 300%;
+    left: -50%;
+    opacity: 0.08;
+    position: fixed;
+    top: -110%;
+    width: 300%;
+    pointer-events: none;
+}
+
+@keyframes grain {
+    0%, 100% {
+        transform: translate(0, 0)
+    }
+    10% {
+        transform: translate(-5%, -10%)
+    }
+    20% {
+        transform: translate(-15%, 5%)
+    }
+    30% {
+        transform: translate(7%, -25%)
+    }
+    40% {
+        transform: translate(-5%, 25%)
+    }
+    50% {
+        transform: translate(-15%, 10%)
+    }
+    60% {
+        transform: translate(15%, 0%)
+    }
+    70% {
+        transform: translate(0%, 15%)
+    }
+    80% {
+        transform: translate(3%, 35%)
+    }
+    90% {
+        transform: translate(-10%, 10%)
+    }
 }
