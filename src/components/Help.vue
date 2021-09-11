@@ -3,7 +3,7 @@
     <p class="text-lg md:text-xl">Portfolio</p>
 
     <p class="text-base md:text-lg mt-3">
-      <span class="capitalize">usage:</span> portfolio [command] [--option]
+      <span class="capitalize">usage:</span> [command] [--option]
     </p>
 
     <p class="text-base md:text-lg mt-3 capitalize">commands:</p>
@@ -49,15 +49,11 @@ export default {
       { label: "documentation" },
     ],
     options: [
-      { label: "--help", description: "Show this screen" },
-      { label: "--download", description: "Download this page (JSON)" },
+      { label: "--help", description: "Show this screen" }
     ],
   }),
 
   async mounted() {
-    console.log(document.body.scrollHeight);
-    console.log(document.documentElement.scrollHeight);
-
     this.terminate();
   },
 };
