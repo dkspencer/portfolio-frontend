@@ -3,15 +3,14 @@
     <span v-if="isLoading && !isError">Loading ...</span>
     <span v-if="isError">There was an error when trying to contact API</span>
 
-    <table v-if="!isLoading && !isError">
+    <table class="mb-2" v-if="!isLoading && !isError">
       <thead class="text-fg text-sm md:text-base border-b border-dashed border-fg">
         <tr>
-          <th class="text-left px-2 uppercase hidden md:table-cell">id</th>
-          <th class="text-left px-2 uppercase">title</th>
-          <th class="text-left px-2 uppercase hidden lg:table-cell">institute</th>
-          <th class="text-left px-2 uppercase hidden md:table-cell">country</th>
-          <th class="text-left px-2 uppercase hidden lg:table-cell">start date</th>
-          <th class="text-left px-2 uppercase">end date</th>
+          <th class="text-left px-2 uppercase hidden lg:table-cell">id</th>
+          <th class="text-left px-2 uppercase">name</th>
+          <th class="text-left px-2 uppercase">confidence</th>
+          <th class="text-left px-2 uppercase hidden lg:table-cell">project title</th>
+          <th class="text-left px-2 uppercase hidden md:table-cell">project url</th>
         </tr>
       </thead>
       <tbody class="text-sm md:text-base">
@@ -19,12 +18,20 @@
           v-for="e in data"
           :key="e.id"
         >
-            <td class="text-right px-2 hidden md:table-cell">{{ e.id }}</td>
-            <td class="text-left px-2">{{ e.degree }}</td>
-            <td class="text-left px-2 hidden lg:table-cell">{{ e.university }}</td>
-            <td class="text-left px-2 hidden md:table-cell">{{ e.country }}</td>
-            <td class="text-left px-2 hidden lg:table-cell">{{ e.start_date }}</td>
-            <td class="text-left px-2">{{ e.end_date }}</td>
+          <td class="text-left px-2 hidden lg:table-cell">{{ e.id }}</td>
+          <td class="text-left px-2">{{ e.name }}</td>
+          <td class="text-left px-2 md:pr-0 lg:text-left">
+            <span v-for="index in e.confidence * 2" :key="index" class="text-fg text-lg" id="progress">|</span>
+            <span id="missingprogress" v-for="index in countRemainingProgress(e.confidence) * 2" :key="index + 'a'" class="text-white text-lg">|</span>
+            <span id="progressouter" class="text-white text-lg">|</span>
+          </td>
+          <td v-if="e.example" class="text-left px-2 hidden lg:table-cell">{{ e.example.description }}</td>
+          <td v-else class="text-left px-2 hidden md:table-cell"></td>
+          <td v-if="e.example" class="text-left px-2 hidden md:table-cell">
+            <a :href="e.example.url" class="underline tracking-wide hidden md:table-cell" target="_blank">
+              {{ e.example.url }}
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -61,7 +68,7 @@ export default {
     setIsError (isError) {
       this.isError = isError
     },
-    connect(endpoint = "education") {
+    connect(endpoint = "skill") {
       this.api = axios.create({
         baseURL: this.endpoint,
         headers: { Authorization: "Token " + this.apikey },
@@ -80,7 +87,7 @@ export default {
           // Recursively retrieve all results
           this.nextPageEndpoint = response.data.next;
           if (this.nextPageEndpoint) {
-            var endpoint = "education?" + this.nextPageEndpoint.split("?")[1];
+            var endpoint = "skill?" + this.nextPageEndpoint.split("?")[1];
             this.connect(endpoint);
           }
 
@@ -95,9 +102,11 @@ export default {
           this.terminate();
           return
         })
+    },
+    countRemainingProgress(progress) {
+      var remaining = 10 - progress
+      return remaining
     }
-  },
-  computed: {
   },
 }
 </script>

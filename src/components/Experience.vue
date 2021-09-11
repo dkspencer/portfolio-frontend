@@ -1,122 +1,38 @@
 <template>
-  <div
-    v-if="environment.isExecuting"
-    @keyup="nextItem($event)"
-    class="flex flex-wrap"
-    v-on:click="focusTerminal"
-  >
-    <!-- Introduction -->
-    <div class="w-full overflow-hidden">
-      <textarea
-        class="
-          resize-none
-          cursor-default
-          text-fg text-center
-          break-words
-          text-sm
-          md:text-base
-          md:h-5
-          overflow-hidden
-        "
-        ref="terminal"
-        @keydown.ctrl.88="destroy"
-        readonly
-        @keyup.39="nextPage"
-        @keyup.37="prevPage"
+  <div class="my-2 max-w-4xl">
+    <span v-if="isLoading && !isError">Loading ...</span>
+    <span v-if="isError">There was an error when trying to contact API</span>
+
+    <table class="mb-2" v-if="!isLoading && !isError">
+      <thead
+        class="text-fg text-sm md:text-base border-b border-dashed border-fg"
       >
-Use the arrow keys or the buttons on the bottom to navigate the table</textarea
-      >
-    </div>
+        <tr>
+          <th class="text-left px-2 uppercase hidden md:table-cell">id</th>
+          <th class="text-left px-2 uppercase">title</th>
+          <th class="text-left px-2 uppercase">company</th>
+          <th class="text-left px-2 uppercase hidden md:table-cell">country</th>
+          <th class="text-left px-2 uppercase hidden lg:table-cell">
+            start date
+          </th>
+          <th class="text-left px-2 hidden lg:table-cell uppercase">
+            end date
+          </th>
+        </tr>
+      </thead>
+      <tr v-for="e in data" :key="e.id">
+        <td class="text-left px-2 hidden md:table-cell">{{ e.id }}</td>
+        <td class="text-left px-2">{{ e.title }}</td>
+        <td class="text-left px-2">{{ e.company }}</td>
+        <td class="text-left px-2 hidden md:table-cell">{{ e.country }}</td>
+        <td class="text-left px-2 hidden lg:table-cell">{{ e.start_date }}</td>
+        <td class="text-left px-2 hidden lg:table-cell">{{ e.end_date }}</td>
+      </tr>
+    </table>
 
-    <!-- Data table -->
-    <div class="w-full overflow-hidden">
-      <table ref="table-fixed" class="table-fixed min-w-full mt-2">
-        <thead class="bg-fg text-bg text-sm md:text-base">
-          <tr>
-            <th class="text-center hidden md:table-cell">ID</th>
-            <th class="text-left pl-2 md:pl-0">TITLE</th>
-            <th class="text-right pr-2 md:pr-0 md:text-left">COMPANY</th>
-            <th class="text-left hidden md:table-cell">COUNTRY</th>
-            <th class="text-left hidden md:table-cell">START DATE</th>
-            <th class="text-left hidden md:table-cell">END DATE</th>
-          </tr>
-        </thead>
-        <tbody class="text-sm md:text-base">
-          <tr
-            v-for="(e, index) in data"
-            :key="e.id"
-            :class="{ 'active-item': selectedRow === index }"
-            v-on:click="selectRow(e, index)"
-          >
-            <td class="text-center hidden md:table-cell">{{ e.id }}</td>
-            <td class="text-left pl-2 md:pl-0">{{ e.title }}</td>
-            <td class="text-right pr-2 md:pr-0 md:text-left">{{ e.company }}</td>
-            <td class="text-left hidden md:table-cell">{{ e.country }}</td>
-            <td class="text-left hidden md:table-cell">{{ e.start_date }}</td>
-            <td class="text-left hidden md:table-cell" v-if="e.end_date">{{ e.end_date }}</td>
-            <td class="text-left hidden md:table-cell" v-else>PRESENT</td>
-          </tr>
-          <tr v-for="index in padRows" :key="index + '1'">
-            <td>
-              <p class="invisible">{{ index }}</p>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot class="mb-5 pr-2 text-right bg-fg text-bg font-bold text-sm md:text-base">
-          <tr>
-            <td class="text-left pl-2">TOTAL: {{ this.total }}</td>
-            <td colspan="5" class="pr-2">
-              SHOWING PAGE {{ currentPage }} OF {{ calculateShowing }}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-
-    <!-- Summary -->
-    <div class="w-full overflow-y-auto" id="summary">
-      <template v-if="this.example">
-        <p class="font-bold text-md md:text-xl">SUMMARY</p>
-        <p class="ml-5 mr-1 md:mx-10 text-justify text-sm md:text-base">
-          {{ this.example }}
-        </p>
-      </template>
-      <template v-else>
-        <p>No example</p>
-      </template>
-    </div>
-
-    <!-- Actions -->
-    <div
-      class="
-        flex flex-wrap
-        overflow-hidden
-        justify-center
-        bg-fg
-        font-bold
-        text-sm
-        md:text-xl
-      "
-      ref="actions"
-    >
-      <p class="text-bg ml-1 mr-6 px-1">
-        <button v-on:click="destroy" class="text-bg2">[CTRL+X]</button>
-        CLOSE
-      </p>
-      <p class="text-bg ml-1 mr-6 px-1">
-        <button v-on:click="prevRow" class="text-bg2">[↑]</button>
-        <button v-on:click="nextRow" class="text-bg2">[↓]</button>
-        SCROLL
-      </p>
-      <p class="text-bg ml-1 mr-6 px-1">
-        <button v-on:click="prevPage" class="text-bg2">[←]</button>
-        PREVIOUS
-      </p>
-      <p class="text-bg ml-1 mr-6 px-1">
-        <button v-on:click="nextPage" class="text-bg2">[→]</button>
-        NEXT
-      </p>
-    </div>
+    <p v-if="!isLoading && !isError">
+      Showing {{ this.total }} result<span v-if="this.total > 1">s</span>
+    </p>
   </div>
 </template>
 
@@ -124,27 +40,44 @@ Use the arrow keys or the buttons on the bottom to navigate the table</textarea
 import axios from "axios";
 
 export default {
-  name: "Experience",
-  inject: ["setIsFullscreen", "terminate"],
+  inject: ["terminate"],
 
   components: {},
+
   data: () => ({
+    isError: false,
+    isLoading: true,
     api: false,
     endpoint: process.env.VUE_APP_ENDPOINT,
     user: false,
     apikey: process.env.VUE_APP_APIKEY,
-    data: [],
-    selectedRow: 0,
     nextPageEndpoint: "",
-    previousPageEndpoint: "",
     total: 0,
-    maxRows: 0,
-    currentPage: 1,
-    rows: 10,
-    example: {},
+    data: [],
+    commands: [
+      { label: "experience" },
+      { label: "skills" },
+      { label: "education" },
+      { label: "about" },
+      { label: "contact" },
+      { label: "resume" },
+      { label: "documentation" },
+    ],
+    options: [
+      { label: "--help", description: "Show this screen" },
+      { label: "--download", description: "Download this page (JSON)" },
+    ],
   }),
 
+  async mounted() {
+    this.connect();
+    // this.terminate();
+  },
+
   methods: {
+    setIsError(isError) {
+      this.isError = isError;
+    },
     connect(endpoint = "experience") {
       this.api = axios.create({
         baseURL: this.endpoint,
@@ -154,117 +87,31 @@ export default {
       this.api
         .get(endpoint)
         .then((response) => {
-          this.data = response.data.results;
+          this.data = this.data.concat(response.data.results);
 
           if (!this.total) {
             this.total = response.data.count;
           }
 
-          this.maxRows = +this.data.length - 1;
-
+          // Recursively retrieve all results
           this.nextPageEndpoint = response.data.next;
-          this.previousPageEndpoint = response.data.previous;
-
-          this.example = this.data[0].summary;
-        })
-        .catch((error) => {
-          if (error && error.response && error.response.status == 401) {
-            alert("Invalid API Key");
-          } else {
-            alert("There was an error while connecting to the API");
+          if (this.nextPageEndpoint) {
+            var endpoint = "experience?" + this.nextPageEndpoint.split("?")[1];
+            this.connect(endpoint);
           }
+
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.setIsError(true);
+        })
+        .finally(() => {
+          this.isLoading = false;
+          window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+          this.terminate();
         });
     },
-
-    selectRow(e, index) {
-      this.selectedRow = index;
-      this.example = e.summary;
-    },
-
-    nextRow() {
-      if (this.selectedRow < this.maxRows) {
-        this.selectedRow++;
-        this.example = this.data[this.selectedRow].summary;
-      }
-    },
-
-    prevRow() {
-      if (this.selectedRow > 0) {
-        this.selectedRow--;
-        this.example = this.data[this.selectedRow].summary;
-      }
-    },
-
-    nextItem(e) {
-      if (e.keyCode == 38 && this.selectedRow > 0) {
-        this.prevRow();
-      } else if (e.keyCode == 40 && this.selectedRow < this.maxRows) {
-        this.nextRow();
-      }
-    },
-
-    nextPage() {
-      if (this.nextPageEndpoint) {
-        var endpoint = "experience?" + this.nextPageEndpoint.split("?")[1];
-        this.connect(endpoint);
-        this.selectedRow = 0;
-      }
-    },
-
-    prevPage() {
-      if (this.previousPageEndpoint) {
-        var endpoint = "experience?" + this.previousPageEndpoint.split("?")[1];
-        this.connect(endpoint);
-        this.selectedRow = 0;
-      }
-    },
-
-    focusTerminal() {
-      this.$refs.terminal.focus();
-    },
-
-    destroy() {
-      // On exit, remove the actions from the footer
-      var elem = this.$refs.actions;
-      elem.parentNode.removeChild(elem);
-
-      // Hide the placeholder to prevent the extended height of the
-      // footer
-      var placeholder = document.getElementById("placeholder");
-      placeholder.style.display = "block";
-
-      // Revert title
-      var title = document.getElementById("title");
-      title.innerText = 'PORTFOLIO';
-
-      this.terminate();
-    },
   },
-  computed: {
-    calculateShowing() {
-      var totalPages = this.total / 10;
-      return Math.ceil(totalPages);
-    },
-    padRows() {
-      return this.rows - this.data.length;
-    },
-  },
-  created() {
-    this.setIsFullscreen(true);
-  },
-
-  mounted() {
-    this.$refs.terminal.focus();
-    this.connect();
-
-    // Move the actions to the footer
-    document.getElementById("footer").appendChild(this.$refs.actions);
-    var placeholder = document.getElementById("placeholder");
-    placeholder.style.display = "none";
-
-    // Append component name to title
-    var title = document.getElementById("title")
-    title.innerText = this.$options.name.toUpperCase();    
-  },
+  computed: {},
 };
 </script>
