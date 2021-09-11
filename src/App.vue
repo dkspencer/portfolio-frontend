@@ -1,44 +1,44 @@
 <template>
   <div class="h-screen flex flex-col">
-    <header class="flex bg-bg">
-      <div
-        class="
-          grid grid-cols-3
-          w-full
-          overflow-hidden
-          max-w-screen-lg
-          mx-auto
-          pt-5 md:pt-0
-          mt-5
-          bg-fg
-          text-center text-bg
-          font-bold
-          text-sm
-          md:text-lg
-        "
-      >
-        <div>{{ currentDate() }}</div>
-        <div id="title">PORTFOLIO</div>
-        <div>{{ timeNow }}</div>
-      </div>
-    </header>
+    
+    <nav
+      class="
+        antialiased
+        bg-fg
+        flex
+        flex-wrap
+        pt-3
+        grid grid-cols-3
+        text-center
+        text-bg
+        font-bold
+        text-sm
+        md:text-lg
+      "
+    >
+      <div>{{ currentDate() }}</div>
+      <div>PORTFOLIO</div>
+      <div>{{ timeNow }}</div>
+    </nav>
 
     <div class="flex flex-1 bg-bg overflow-auto" id="terminal">
       <div
-        class="w-full max-w-screen-lg mx-auto bg-bg"
+        class="w-full mx-auto bg-bg"
         v-on:click="focusTerminal"
       >
         <vue-command
-          :history.sync="history"
-          :is-in-progress="isInProgress"
-          :pointer="pointer"
+          :autocompletion-resolver="autocompletionResolver"
+          :built-in="builtIn"
           :commands="commands"
-          prompt=">"
+          :cursor.sync="cursor"
+          :history.sync="history"
+          :stdin.sync="stdin"
+          :is-in-progress="isInProgress"
+          :pointer="pointer"          
+          prompt="~$"
           :hide-bar="hideBar"
           :hide-title="hideTitle"
           :show-help="showHelp"
-          :show-intro="showIntro"
-          intro="SHELL VERSION 1.0.0, COPYRIGHT 2021 DANIELLE SPENCER"
           ref="terminal"
           class="overflow-hidden text-sm md:text-base"
         >
@@ -46,17 +46,6 @@
       </div>
     </div>
 
-    <footer class="flex bg-bg">
-      <div
-        class="w-full overflow-hidden max-w-screen-lg mx-auto mt-5 bg-fg"
-        id="footer"
-      >
-        <p class="text-bg text-sm md:text-xl ml-1 mr-6 px-1 invisible" id="placeholder">
-          <button class="text-bg text-xl"></button>
-          CLOSE
-        </p>
-      </div>
-    </footer>
   </div>
 </template>
 
@@ -66,7 +55,7 @@ import moment from "moment";
 import "./main.css";
 import Education from "./components/Education.vue";
 import Experience from "./components/Experience.vue";
-import Skill from "./components/Skill.vue";
+import Skills from "./components/Skills.vue";
 import User from "./components/User.vue";
 import Help from "./components/Help.vue";
 
@@ -77,6 +66,9 @@ export default {
   },
 
   data: () => ({
+    autocompletionResolver: () => undefined,
+    cursor: 0,
+    stdin: '',
     builtIn: undefined,
     executed: new Set(),
     history: [],
@@ -84,20 +76,26 @@ export default {
     pointer: 0,
     commands: {
       something: () => createStdout("Haha... very funny"),
-      education: () => Education,
-      experience: () => Experience,
-      skills: () => Skill,
-      users: () => User,
-      help: () => Help,
+      pwd: undefined,
+      education: undefined,
+      experience: undefined,
+      skills: undefined,
+      users: undefined,
+      help: undefined,
+      contact: undefined
     },
     hideBar: true,
     hideTitle: true,
     showHelp: true,
-    showIntro: false,
     api: false,
     endpoint: process.env.VUE_APP_ENDPOINT,
     user: false,
     timeNow: "",
+    options: {
+      long: {
+        contact: ['url']
+      },
+    }
   }),
   methods: {
     focusTerminal() {
@@ -108,17 +106,16 @@ export default {
     },
     currentTime() {
       this.timeNow = moment().format("h:mm:ss a");
-    },
+    }
   },
   mounted() {
     // this.$refs.terminal.focus();
     this.currentTime();
     setInterval(this.currentTime, 1000)
-
   },
   created() {
     var message =
-      "PORTFOLIO version 1.0.0<br> ©" +
+      "PORTFOLIO version 1.1.0<br> ©" +
       new Date().getFullYear() +
       " Danielle Spencer<br> " +
       "<br> Welcome to my portfolio<br><br>" +
@@ -130,7 +127,7 @@ export default {
       this.history = [];
       return createDummyStdout();
     };
-    this.commands.download = () => {
+    this.commands.resume = () => {
       window.open("/DanielleSpencer.pdf", "_blank");
       return createStdout("CV opened in new tab")
     };
@@ -138,6 +135,68 @@ export default {
       window.open(process.env.VUE_APP_ENDPOINT + "/documentation", "_blank");
       return createStdout("Documentation opened in new tab")
     };
-  },
+    this.commands.skills = () => {
+      return Skills
+    };
+    this.commands.education = () => {
+      return Education
+    };
+    this.commands.experience = () => {
+      return Experience
+    };
+    this.commands.help = () => {
+      return Help
+    };
+    this.commands.about = () => {
+      return User
+    };
+    this.autocompletionResolver = () => {
+      // Make sure only programs are autocompleted. See below for version with options
+      const command = this.stdin.split(' ')
+      if (command.length > 1) {
+        return
+      }
+
+      const autocompleteableProgram = command[0]
+      // Collect all autocompletion candidates
+      let candidates = []
+      const programs = [...Object.keys(this.commands)].sort()
+      programs.forEach(program => {
+        if (program.startsWith(autocompleteableProgram)) {
+          candidates.push(program)
+        }
+      })
+
+      // Autocompletion resolved into multiple results
+      if (this.stdin !== '' && candidates.length > 1) {
+        this.history.push({
+          // Build table programmatically
+          render: createElement => {
+            const columns = candidates.length < 5 ? candidates.length : 4
+            const rows = candidates.length < 5 ? 1 : Math.ceil(candidates.length / columns)
+
+            let index = 0
+            let table = []
+            for (let i = 0; i < rows; i++) {
+              let row = []
+              for (let j = 0; j < columns; j++) {
+                row.push(createElement('td', candidates[index]))
+                index++
+              }
+
+              table.push(createElement('tr', [row]))
+            }
+
+            return createElement('table', { style: { width: '100%' } }, [table])
+          }
+        })
+      }
+
+      // Autocompletion resolved into one result
+      if (candidates.length === 1) {
+        this.stdin = candidates[0]
+      }
+    }
+  }
 };
 </script>
