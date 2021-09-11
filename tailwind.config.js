@@ -13,9 +13,13 @@ module.exports = {
         extend: {
             colors: {
                 bg: '#3c3836',
-                fg: '#deb15a'
+                fg: '#deb15a',
+                white: '#fafafa'
             },
-        }
+            fontSize: {
+                'xxs': '.50rem'
+            }
+        },
     },
     variants: {},
     plugins: [],

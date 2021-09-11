@@ -1,9 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body {
+/* body {
     background-color: #3c3836 !important;
     padding: 10px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+} */
+
+/* .cmdtbl {
+    column-count: 3;
+} */
+
+#progress {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#missingprogress {
+    color: #3c3836;
+    text-shadow: 0 0 0px #3c3836;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .vue-command .term-search-container {
@@ -21,7 +37,6 @@ body {
     border: 0;
     color: inherit;
     font-family: inherit;
-    /* font-size: 1rem */
 }
 
 .vue-command .term-stdin-container {
@@ -30,12 +45,9 @@ body {
     display: flex
 }
 
-.vue-command input,
-.vue-command textarea {
+.vue-command input, .vue-command textarea {
     background: #3c3836;
     border: none;
-    /* font-family: "Courier New", Courier, monospace; */
-    /* font-size: 1rem; */
     outline: none;
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -46,34 +58,30 @@ body {
 .vue-command input[type="submit"] {
     background: #3c3836;
     color: #deb15a;
+    text-shadow: 0 0 2px #C79F51;
 }
 
 .vue-command input[type="submit"]:hover {
     background: #9dafb3;
 }
 
-.vue-command input::-webkit-input-placeholder,
-.vue-command textarea::-webkit-input-placeholder {
+.vue-command input::-webkit-input-placeholder, .vue-command textarea::-webkit-input-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input::-moz-placeholder,
-.vue-command textarea::-moz-placeholder {
+.vue-command input::-moz-placeholder, .vue-command textarea::-moz-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input:-ms-input-placeholder,
-.vue-command textarea:-ms-input-placeholder {
+.vue-command input:-ms-input-placeholder, .vue-command textarea:-ms-input-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input::-ms-input-placeholder,
-.vue-command textarea::-ms-input-placeholder {
+.vue-command input::-ms-input-placeholder, .vue-command textarea::-ms-input-placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
-.vue-command input::placeholder,
-.vue-command textarea::placeholder {
+.vue-command input::placeholder, .vue-command textarea::placeholder {
     color: hsla(0, 0%, 100%, .5)
 }
 
@@ -86,26 +94,21 @@ body {
     border: 0;
     color: inherit;
     font-family: inherit;
-    /* font-size: 1rem */
 }
 
 .vue-command .term-ps {
     margin-right: .5rem
 }
 
-.vue-command,
-.vue-command a,
-.vue-command input,
-.vue-command span,
-.vue-command textarea {
-    color: #deb15a
+.vue-command, .vue-command a, .vue-command input, .vue-command span, .vue-command textarea {
+    color: #deb15a;
+    text-shadow: 0 0 2px #C79F51;
 }
 
-
-/* .vue-command {
-    overflow-y: hidden;
-    overflow-x: hidden;
-} */
+#progressouter {
+    color: #ffffff;
+    text-shadow: 0 0 2px #ffffff;
+}
 
 .vue-command .term-bar {
     background: #3c3836;
@@ -124,7 +127,6 @@ body {
 
 .vue-command .term-title {
     font-family: Montserrat, sans-serif;
-    /* font-size: .85rem; */
     margin: auto 0
 }
 
@@ -140,7 +142,6 @@ body {
 }
 
 .vue-command .term-cont {
-    /* font-family: "Courier New", Courier, monospace; */
     padding-left: .5rem;
     padding-right: .5rem;
     padding-bottom: .5rem;
@@ -149,22 +150,6 @@ body {
     flex: 1;
     margin-top: 10px
 }
-
-
-/* .vue-command .term-hist-container-fullscreen,
-.vue-command .term-std {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    height: 600px;
-} */
 
 .vue-command .term-stdout {
     word-break: normal
@@ -188,7 +173,6 @@ textarea {
     width: 24em;
     margin: 0 auto;
     border-right: 2px solid rgba(255, 255, 255, .75);
-    /* font-size: 180%; */
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -201,7 +185,6 @@ textarea {
     width: 24em;
     margin: 0 auto;
     border-right: 2px solid rgba(255, 255, 255, .75);
-    /* font-size: 180%; */
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -210,25 +193,20 @@ textarea {
 
 .custom.char.typed {
     color: #deb15a;
+    text-shadow: 0 0 2px #C79F51;
 }
 
 .active-item {
     background-color: #deb15a;
     color: #3c3836;
+    text-shadow: 0 0 1px #0C0B0A;
 }
-
-body {
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 
 .no-scrollbar::-webkit-scrollbar {
     display: none !important;
 }
-
 
 /* Hide scrollbar for IE, Edge and Firefox */
 
@@ -239,18 +217,61 @@ body {
     /* Firefox */
 }
 
-#terminal::-webkit-scrollbar,
-#summary::-webkit-scrollbar {
+#terminal::-webkit-scrollbar, #summary::-webkit-scrollbar {
     display: none;
 }
 
-
 /* Hide scrollbar for IE, Edge and Firefox */
 
-#terminal,
-#summary {
+#terminal, #summary {
     -ms-overflow-style: none;
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
+}
+
+html:before {
+    animation: grain 2s steps(10) infinite;
+    background-image: url('/noise.png');
+    content: "";
+    height: 300%;
+    left: -50%;
+    opacity: 0.08;
+    position: fixed;
+    top: -110%;
+    width: 300%;
+    pointer-events: none;
+}
+
+@keyframes grain {
+    0%, 100% {
+        transform: translate(0, 0)
+    }
+    10% {
+        transform: translate(-5%, -10%)
+    }
+    20% {
+        transform: translate(-15%, 5%)
+    }
+    30% {
+        transform: translate(7%, -25%)
+    }
+    40% {
+        transform: translate(-5%, 25%)
+    }
+    50% {
+        transform: translate(-15%, 10%)
+    }
+    60% {
+        transform: translate(15%, 0%)
+    }
+    70% {
+        transform: translate(0%, 15%)
+    }
+    80% {
+        transform: translate(3%, 35%)
+    }
+    90% {
+        transform: translate(-10%, 10%)
+    }
 }
