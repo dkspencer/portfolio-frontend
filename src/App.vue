@@ -1,16 +1,13 @@
 <template>
   <div class="h-screen flex flex-col">
-    
     <nav
       class="
         antialiased
         bg-fg
-        flex
-        flex-wrap
+        flex flex-wrap
         pt-3
         grid grid-cols-3
-        text-center
-        text-bg
+        text-center text-bg
         font-bold
         text-sm
         md:text-lg
@@ -22,10 +19,7 @@
     </nav>
 
     <div class="flex flex-1 bg-bg overflow-auto" id="terminal">
-      <div
-        class="w-full mx-auto bg-bg"
-        v-on:click="focusTerminal"
-      >
+      <div class="w-full mx-auto bg-bg" v-on:click="focusTerminal">
         <vue-command
           :autocompletion-resolver="autocompletionResolver"
           :built-in="builtIn"
@@ -34,7 +28,7 @@
           :history.sync="history"
           :stdin.sync="stdin"
           :is-in-progress="isInProgress"
-          :pointer="pointer"          
+          :pointer="pointer"
           prompt="~$"
           :hide-bar="hideBar"
           :hide-title="hideTitle"
@@ -45,7 +39,6 @@
         </vue-command>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -68,7 +61,7 @@ export default {
   data: () => ({
     autocompletionResolver: () => undefined,
     cursor: 0,
-    stdin: '',
+    stdin: "",
     builtIn: undefined,
     executed: new Set(),
     history: [],
@@ -82,7 +75,6 @@ export default {
       skills: undefined,
       users: undefined,
       help: undefined,
-      contact: undefined
     },
     hideBar: true,
     hideTitle: true,
@@ -93,9 +85,12 @@ export default {
     timeNow: "",
     options: {
       long: {
-        contact: ['url']
+        skills: ["help"],
+        education: ["help"],
+        experience: ["help"],
+        about: ["help"]
       },
-    }
+    },
   }),
   methods: {
     focusTerminal() {
@@ -106,12 +101,12 @@ export default {
     },
     currentTime() {
       this.timeNow = moment().format("h:mm:ss a");
-    }
+    },
   },
   mounted() {
     // this.$refs.terminal.focus();
     this.currentTime();
-    setInterval(this.currentTime, 1000)
+    setInterval(this.currentTime, 1000);
   },
   created() {
     var message =
@@ -129,74 +124,97 @@ export default {
     };
     this.commands.resume = () => {
       window.open("/DanielleSpencer.pdf", "_blank");
-      return createStdout("CV opened in new tab")
+      return createStdout("CV opened in new tab");
     };
     this.commands.documentation = () => {
       window.open(process.env.VUE_APP_ENDPOINT + "/documentation", "_blank");
-      return createStdout("Documentation opened in new tab")
+      return createStdout("Documentation opened in new tab");
     };
-    this.commands.skills = () => {
-      return Skills
+    this.commands.skills = ({ help }) => {
+      if (help) {
+        return createStdout("View a list of skills with projects");
+      }
+      return Skills;
     };
-    this.commands.education = () => {
-      return Education
+    this.commands.education = ({ help }) => {
+      if (help) {
+        return createStdout(
+          "View an educational history, including certifications"
+        );
+      }
+      return Education;
     };
-    this.commands.experience = () => {
-      return Experience
+    this.commands.experience = ({ help }) => {
+      if (help) {
+        return createStdout(
+          "Previous and current job experiences"
+        );
+      }
+      return Experience;
     };
     this.commands.help = () => {
-      return Help
+      return Help;
     };
-    this.commands.about = () => {
-      return User
+    this.commands.about = ({ help }) => {
+      if (help) {
+        return createStdout(
+          "View information and contact information"
+        );
+      }
+      return User;
     };
     this.autocompletionResolver = () => {
       // Make sure only programs are autocompleted. See below for version with options
-      const command = this.stdin.split(' ')
+      const command = this.stdin.split(" ");
       if (command.length > 1) {
-        return
+        return;
       }
 
-      const autocompleteableProgram = command[0]
+      const autocompleteableProgram = command[0];
       // Collect all autocompletion candidates
-      let candidates = []
-      const programs = [...Object.keys(this.commands)].sort()
-      programs.forEach(program => {
+      let candidates = [];
+      const programs = [...Object.keys(this.commands)].sort();
+      programs.forEach((program) => {
         if (program.startsWith(autocompleteableProgram)) {
-          candidates.push(program)
+          candidates.push(program);
         }
-      })
+      });
 
       // Autocompletion resolved into multiple results
-      if (this.stdin !== '' && candidates.length > 1) {
+      if (this.stdin !== "" && candidates.length > 1) {
         this.history.push({
           // Build table programmatically
-          render: createElement => {
-            const columns = candidates.length < 5 ? candidates.length : 4
-            const rows = candidates.length < 5 ? 1 : Math.ceil(candidates.length / columns)
+          render: (createElement) => {
+            const columns = candidates.length < 5 ? candidates.length : 4;
+            const rows =
+              candidates.length < 5
+                ? 1
+                : Math.ceil(candidates.length / columns);
 
-            let index = 0
-            let table = []
+            let index = 0;
+            let table = [];
             for (let i = 0; i < rows; i++) {
-              let row = []
+              let row = [];
               for (let j = 0; j < columns; j++) {
-                row.push(createElement('td', candidates[index]))
-                index++
+                row.push(createElement("td", candidates[index]));
+                index++;
               }
 
-              table.push(createElement('tr', [row]))
+              table.push(createElement("tr", [row]));
             }
 
-            return createElement('table', { style: { width: '100%' } }, [table])
-          }
-        })
+            return createElement("table", { style: { width: "100%" } }, [
+              table,
+            ]);
+          },
+        });
       }
 
       // Autocompletion resolved into one result
       if (candidates.length === 1) {
-        this.stdin = candidates[0]
+        this.stdin = candidates[0];
       }
-    }
-  }
+    };
+  },
 };
 </script>
