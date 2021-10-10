@@ -19,7 +19,7 @@
     </nav>
 
     <div class="flex flex-1 bg-bg overflow-auto" id="terminal">
-      <div class="w-full mx-auto bg-bg" v-on:click="focusTerminal">
+      <div class="w-full mx-auto bg-bg text-justify" v-on:click="focusTerminal">
         <vue-command
           :autocompletion-resolver="autocompletionResolver"
           :built-in="builtIn"
@@ -34,7 +34,7 @@
           :hide-title="hideTitle"
           :show-help="showHelp"
           ref="terminal"
-          class="overflow-hidden text-sm md:text-base"
+          class="overflow-hidden text-sm md:text-base max-w-4xl"
         >
         </vue-command>
       </div>
@@ -51,6 +51,7 @@ import Experience from "./components/Experience.vue";
 import Skills from "./components/Skills.vue";
 import User from "./components/User.vue";
 import Help from "./components/Help.vue";
+import Projects from "./components/Projects.vue";
 
 export default {
   name: "App",
@@ -113,8 +114,13 @@ export default {
       "PORTFOLIO version 1.1.0<br> ©" +
       new Date().getFullYear() +
       " Danielle Spencer<br> " +
-      "<br> Welcome to my portfolio<br><br>" +
-      "To get started, try typing in 'help'";
+      "<br>Hi, I'm Danielle and I'm a Python Developer.<br><br>" +
+      "I took inspiration for my portfolio from vintage terminals," +
+      " prelevant in the early days of computers; thus, it will require some" +
+      " typing on your part.<br><br>" +
+      " Alternatively, you can select the different options from" + 
+      " the navigation menu to the left. <br><br>" + 
+      " All data returned is from my Django API.<br><br>";
 
     this.history.push(createStdout(message));
 
@@ -162,6 +168,14 @@ export default {
         );
       }
       return User;
+    };
+    this.commands.projects = ({ help }) => {
+      if (help) {
+        return createStdout(
+          "View a list of projects I have written"
+        );
+      }
+      return Projects;
     };
     this.autocompletionResolver = () => {
       // Make sure only programs are autocompleted. See below for version with options
