@@ -7,8 +7,8 @@
       <thead class="text-fg text-sm md:text-base border-b border-dashed border-fg">
         <tr>
           <th class="text-left px-2 uppercase hidden lg:table-cell">id</th>
-          <th class="text-left px-2 uppercase">name</th>
-          <th class="text-left px-2 uppercase">confidence</th>
+          <th class="text-left px-2 uppercase">title</th>
+          <th class="text-left px-2 uppercase">project url</th>
         </tr>
       </thead>
       <tbody class="text-sm md:text-base">
@@ -17,11 +17,11 @@
           :key="e.id"
         >
           <td class="text-left px-2 hidden lg:table-cell">{{ e.id }}</td>
-          <td class="text-left px-2">{{ e.name }}</td>
-          <td class="text-left px-2 md:pr-0 lg:text-left">
-            <span v-for="index in e.confidence * 2" :key="index" class="text-fg text-lg" id="progress">|</span>
-            <span id="missingprogress" v-for="index in countRemainingProgress(e.confidence) * 2" :key="index + 'a'" class="text-white text-lg">|</span>
-            <span id="progressouter" class="text-white text-lg">|</span>
+          <td class="text-left px-2">{{ e.description }}</td>
+          <td class="text-left px-2">
+            <a :href="e.url" class="underline tracking-wide hidden md:table-cell" target="_blank">
+              {{ e.url }}
+            </a>
           </td>
         </tr>
       </tbody>
@@ -59,7 +59,7 @@ export default {
     setIsError (isError) {
       this.isError = isError
     },
-    connect(endpoint = "skill") {
+    connect(endpoint = "project") {
       this.api = axios.create({
         baseURL: this.endpoint,
         headers: { Authorization: "Token " + this.apikey },
@@ -78,7 +78,7 @@ export default {
           // Recursively retrieve all results
           this.nextPageEndpoint = response.data.next;
           if (this.nextPageEndpoint) {
-            var endpoint = "skill?" + this.nextPageEndpoint.split("?")[1];
+            var endpoint = "project?" + this.nextPageEndpoint.split("?")[1];
             this.connect(endpoint);
           }
 
