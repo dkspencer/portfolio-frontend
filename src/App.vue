@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div class="flex h-screen antialiased text-gray-900 bg-gray-100">
       <!-- Sidebar -->
       <div
@@ -135,7 +134,7 @@
         </nav>
       </aside>
 
-      <!-- Sidebars button -->
+      <!-- Header -->
       <div
         class="fixed flex items-center space-x-4 top-5 right-10 bg-fg w-full"
       >
@@ -203,12 +202,12 @@
           "
         >
           <div>{{ currentDate() }}</div>
-          <div>PORTFOLIO</div>
+          <div class="uppercase">Danielle Spencer</div>
           <div>{{ timeNow }}</div>
         </div>
       </div>
 
-      <!-- Main content -->
+      <!-- Terminal -->
       <main class="flex-1">
         <div
           class="
@@ -243,8 +242,15 @@
           </div>
         </div>
       </main>
+
+      <footer>
+        <div class="hidden xl:block flex items-center justify-between absolute inset-x-0 bottom-0 z-0 text-fg font-bold opacity-50">
+          <span class="w-1/5 md:w-1/4"></span>
+          <p class="text-sm text-center">© {{ new Date().getFullYear() }} Danielle Spencer</p>
+          <span class="w-1/5 md:w-1/4"></span>
+        </div>
+      </footer>
     </div>
-  </div>
 </template>
 
 <script>
@@ -360,13 +366,7 @@ export default {
     setInterval(this.currentTime, 1000);
   },
   created() {
-    var message =
-      "PORTFOLIO version " +
-      this.version +
-      "<br> ©" +
-      new Date().getFullYear() +
-      " Danielle Spencer<br> " +
-      "<br>Hi, I'm Danielle and I'm a Python Developer.<br><br>";
+    var message = "Hi, I'm Danielle and I'm a Python Developer.<br><br>";
 
     this.history.push(createStdout(message));
 
