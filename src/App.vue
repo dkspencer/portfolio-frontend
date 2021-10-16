@@ -1,45 +1,256 @@
 <template>
-  <div class="h-screen flex flex-col">
-    <nav
-      class="
-        antialiased
-        bg-fg
-        flex flex-wrap
-        pt-3
-        grid grid-cols-3
-        text-center text-bg
-        font-bold
-        text-sm
-        md:text-lg
-      "
-    >
-      <div>{{ currentDate() }}</div>
-      <div>PORTFOLIO</div>
-      <div>{{ timeNow }}</div>
-    </nav>
+    <div class="flex h-screen antialiased text-gray-900 bg-gray-100">
+      <!-- Sidebar -->
+      <div
+        v-if="isSidebarOpen"
+        @click="isSidebarOpen = !isSidebarOpen"
+        class="fixed inset-0 z-10 bg-bg"
+        style="opacity: 0.5"
+        aria-hidden="true"
+      ></div>
 
-    <div class="flex flex-1 bg-bg overflow-auto" id="terminal">
-      <div class="w-full mx-auto bg-bg" v-on:click="focusTerminal">
-        <vue-command
-          :autocompletion-resolver="autocompletionResolver"
-          :built-in="builtIn"
-          :commands="commands"
-          :cursor.sync="cursor"
-          :history.sync="history"
-          :stdin.sync="stdin"
-          :is-in-progress="isInProgress"
-          :pointer="pointer"
-          prompt="~$"
-          :hide-bar="hideBar"
-          :hide-title="hideTitle"
-          :show-help="showHelp"
-          ref="terminal"
-          class="overflow-hidden text-sm md:text-base"
+      <aside
+        v-if="isSidebarOpen"
+        tabindex="-1"
+        class="
+          fixed
+          inset-y-0
+          z-10
+          flex flex-shrink-0
+          overflow-hidden
+          border-r border-fg
+          lg:static
+          focus:outline-none
+        "
+        ref="sidebar"
+        id="menu"
+      >
+        <!-- Sidebar links -->
+        <nav
+          aria-label="Main"
+          class="
+            flex-1
+            w-64
+            px-2
+            py-4
+            space-y-2
+            overflow-y-hidden
+            hover:overflow-y-auto
+            bg-bg
+          "
         >
-        </vue-command>
+          <div
+            class="
+              flex-shrink-0
+              inline-block
+              text-lg
+              font-bold
+              tracking-widest
+              text-fg text-left
+              p-2
+            "
+          >
+            <!-- PORTFOLIO version {{ version }} -->
+          </div>
+          <!-- Portfolio Command links -->
+          <div>
+            <a
+              href="#"
+              @click="
+                $event.preventDefault();
+                portfolioCommandsOpen = !portfolioCommandsOpen;
+              "
+              class="
+                flex
+                items-center
+                p-2
+                text-fg
+                font-bold
+                transition-colors
+                rounded-md
+                uppercase
+                antialiased
+              "
+              role="button"
+              aria-haspopup="true"
+              :aria-expanded="
+                portfolioCommandsOpen || portfolioCommandsActive
+                  ? 'true'
+                  : 'false'
+              "
+            >
+              <span
+                class="text-lg font-bold tracking-widest text-fg antialiased"
+              >
+                Commands
+              </span>
+              <span class="ml-auto" aria-hidden="true">
+                <svg
+                  class="w-4 h-4 transition-transform transform"
+                  :class="{ 'rotate-180': portfolioCommandsOpen }"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </span>
+            </a>
+            <div
+              role="menu"
+              v-if="portfolioCommandsOpen"
+              class="mt-2 space-y-2 px-7"
+              aria-label="Portfolio Commands"
+            >
+              <button
+                v-for="cmd in menuCommands"
+                :key="cmd.command"
+                class="
+                  flex flex-row
+                  items-center
+                  h-12
+                  px-4
+                  rounded-lg
+                  text-fg
+                  hover:bg-fg
+                  hover:text-bg
+                  w-full
+                  font-bold
+                  tracking-wider
+                "
+                @click="menuCommand(cmd.command)"
+              >
+                <i :class="cmd.icon" />
+                <span class="ml-3 lowercase">{{ cmd.command }}</span>
+              </button>
+            </div>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Header -->
+      <div
+        class="fixed flex items-center space-x-4 top-5 right-10 bg-fg w-full"
+      >
+        <button
+          @click="
+            isSidebarOpen = !isSidebarOpen;
+            $nextTick(() => {
+              $refs.sidebar.focus();
+            });
+          "
+          class="
+            p-1
+            text-bg
+            transition-colors
+            duration-200
+            rounded-md
+            focus:outline-none
+            focus:ring
+          "
+        >
+          <span class="sr-only">Toggle Navigation</span>
+          <span aria-hidden="true">
+            <svg
+              v-if="!isSidebarOpen"
+              class="w-8 h-8"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+            <svg
+              v-if="isSidebarOpen"
+              class="w-8 h-8"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </span>
+        </button>
+        <div
+          class="
+            antialiased
+            bg-fg
+            flex flex-1
+            grid grid-cols-3
+            text-center text-bg
+            font-bold
+            text-sm
+            md:text-lg
+          "
+        >
+          <div>{{ currentDate() }}</div>
+          <div class="uppercase">Danielle Spencer</div>
+          <div>{{ timeNow }}</div>
+        </div>
       </div>
+
+      <!-- Terminal -->
+      <main class="flex-1">
+        <div
+          class="
+            flex flex-col
+            justify-center
+            flex-1
+            h-full
+            min-h-screen
+            overflow-x-hidden overflow-y-auto
+          "
+        >
+          <div class="flex flex-1 bg-bg overflow-auto" id="terminal">
+            <div class="w-full text-justify" v-on:click="focusTerminal">
+              <vue-command
+                :autocompletion-resolver="autocompletionResolver"
+                :built-in="builtIn"
+                :commands="commands"
+                :cursor.sync="cursor"
+                :history.sync="history"
+                :stdin.sync="stdin"
+                :is-in-progress="isInProgress"
+                :pointer="pointer"
+                prompt="~$"
+                :hide-bar="hideBar"
+                :hide-title="hideTitle"
+                :show-help="showHelp"
+                ref="terminal"
+                class="overflow-hidden text-sm md:text-base max-w-4xl pt-12"
+              >
+              </vue-command>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <div class="hidden xl:block flex items-center justify-between absolute inset-x-0 bottom-0 z-0 text-fg font-bold opacity-50">
+          <span class="w-1/5 md:w-1/4"></span>
+          <p class="text-sm text-center">© {{ new Date().getFullYear() }} Danielle Spencer</p>
+          <span class="w-1/5 md:w-1/4"></span>
+        </div>
+      </footer>
     </div>
-  </div>
 </template>
 
 <script>
@@ -51,6 +262,7 @@ import Experience from "./components/Experience.vue";
 import Skills from "./components/Skills.vue";
 import User from "./components/User.vue";
 import Help from "./components/Help.vue";
+import Projects from "./components/Projects.vue";
 
 export default {
   name: "App",
@@ -88,33 +300,73 @@ export default {
         skills: ["help"],
         education: ["help"],
         experience: ["help"],
-        about: ["help"]
+        about: ["help"],
       },
     },
+    isLoading: false,
+    isSidebarOpen: false,
+    // isSidebarOpen: window.innerWidth >= 1024 ? true : false,
+    showYear: window.innerWidth >= 1024 ? true : false,
+    portfolioCommandsOpen: true,
+    portfolioCommandsActive: false,
+    generalCommandsOpen: true,
+    generalCommandsActive: false,
+    miscCommandsOpen: true,
+    miscCommandsActive: false,
+    menuCommands: [
+      { command: "skills", icon: "fas fa-laptop-code" },
+      { command: "education", icon: "fas fa-graduation-cap" },
+      { command: "experience", icon: "fas fa-briefcase" },
+      { command: "about", icon: "fas fa-user" },
+      { command: "projects", icon: "fas fa-project-diagram" },
+      { command: "documentation", icon: "fas fa-external-link-alt" },
+      { command: "resume", icon: "fas fa-file-download" }
+    ],
+    version: "1.2.0",
   }),
   methods: {
+    menuCommand(command) {
+      var elementList = document.querySelectorAll(".term-stdin");
+      var last = elementList[elementList.length - 1];
+      var child = last.children[0];
+
+      child.value = command;
+
+      var event = new Event("input", {
+        bubbles: true,
+        cancelable: false,
+      });
+
+      child.dispatchEvent(event);
+
+      var eventNew = new KeyboardEvent("keyup", {
+        key: "Enter",
+        bubbles: true,
+        cancelable: false,
+      });
+
+      child.dispatchEvent(eventNew);
+    },
     focusTerminal() {
       this.$refs.terminal.focus();
     },
     currentDate() {
-      return moment().format("D MMMM YYYY");
+      if (this.showYear) {
+        return moment().format("D MMMM YYYY");
+      } else {
+        return moment().format("D MMMM");
+      }
     },
     currentTime() {
       this.timeNow = moment().format("h:mm:ss a");
     },
   },
   mounted() {
-    // this.$refs.terminal.focus();
     this.currentTime();
     setInterval(this.currentTime, 1000);
   },
   created() {
-    var message =
-      "PORTFOLIO version 1.1.0<br> ©" +
-      new Date().getFullYear() +
-      " Danielle Spencer<br> " +
-      "<br> Welcome to my portfolio<br><br>" +
-      "To get started, try typing in 'help'";
+    var message = "Hi, I'm Danielle and I'm a Python Developer.<br><br>";
 
     this.history.push(createStdout(message));
 
@@ -146,9 +398,7 @@ export default {
     };
     this.commands.experience = ({ help }) => {
       if (help) {
-        return createStdout(
-          "Previous and current job experiences"
-        );
+        return createStdout("Previous and current job experiences");
       }
       return Experience;
     };
@@ -157,12 +407,17 @@ export default {
     };
     this.commands.about = ({ help }) => {
       if (help) {
-        return createStdout(
-          "View information and contact information"
-        );
+        return createStdout("View information and contact information");
       }
       return User;
     };
+    this.commands.projects = ({ help }) => {
+      if (help) {
+        return createStdout("View a list of projects I have written");
+      }
+      return Projects;
+    };
+
     this.autocompletionResolver = () => {
       // Make sure only programs are autocompleted. See below for version with options
       const command = this.stdin.split(" ");

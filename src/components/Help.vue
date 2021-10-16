@@ -1,32 +1,27 @@
 <template>
   <div class="my-2">
-    <p class="text-lg md:text-xl">Portfolio</p>
-
-    <p class="text-base md:text-lg mt-3">
-      <span class="capitalize">usage:</span> [command] [--option]
-    </p>
-
-    <p class="text-base md:text-lg mt-3 capitalize">commands:</p>
-    <div
-      v-for="command in commands"
-      :key="command.label"
-      class="text-base md:text-lg ml-5"
-    >
-      {{ command.label }}
-    </div>
-
-    <p class="text-base md:text-lg mt-3 capitalize">options:</p>
+    <p class="text-base md:text-lg mt-3 capitalize">portfolio commands:</p>
     <table>
       <tr
-        v-for="option in options"
-        :key="option.label"
-        class="text-base md:text-lg ml-5"
+        v-for="command in commands"
+        :key="command.label"
+        class="text-sm md:text-base ml-5"
       >
         <td class="pl-5">
-          {{ option.label }}
+          {{ command.label }}
         </td>
+      </tr>
+    </table>
+
+    <p class="text-base md:text-lg mt-3 capitalize">general commands:</p>
+    <table>
+      <tr
+        v-for="command in generalCommands"
+        :key="command.label"
+        class="text-sm md:text-base ml-5"
+      >
         <td class="pl-5">
-          {{ option.description }}
+          {{ command.label }}
         </td>
       </tr>
     </table>
@@ -45,12 +40,13 @@ export default {
       { label: "skills" },
       { label: "education" },
       { label: "about" },
+      { label: "projects" },
       { label: "resume" },
       { label: "documentation" },
     ],
-    options: [
-      { label: "--help", description: "Show this screen" }
-    ],
+    generalCommands: [
+      { label: "clear" }
+    ]
   }),
 
   async mounted() {
