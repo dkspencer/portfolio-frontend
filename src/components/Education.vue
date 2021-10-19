@@ -20,8 +20,8 @@
           :key="e.id"
         >
             <td class="text-right px-2 hidden md:table-cell">{{ e.id }}</td>
-            <td class="text-left px-2">{{ e.degree }}</td>
-            <td class="text-left px-2 hidden lg:table-cell">{{ e.university }}</td>
+            <td class="text-left px-2">{{ e.title }}</td>
+            <td class="text-left px-2 hidden lg:table-cell">{{ e.institute }}</td>
             <td class="text-left px-2 hidden md:table-cell">{{ e.country }}</td>
             <td class="text-left px-2 hidden lg:table-cell">{{ e.start_date }}</td>
             <td class="text-left px-2">{{ e.end_date }}</td>

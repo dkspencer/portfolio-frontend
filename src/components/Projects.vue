@@ -7,8 +7,8 @@
       <thead class="text-fg text-sm md:text-base border-b border-dashed border-fg">
         <tr>
           <th class="text-left px-2 uppercase hidden lg:table-cell">id</th>
-          <th class="text-left px-2 uppercase">title</th>
-          <th class="text-left px-2 uppercase">project url</th>
+          <th class="text-left px-2 uppercase">Name</th>
+          <th class="text-left px-2 uppercase hidden lg:table-cell">description</th>
         </tr>
       </thead>
       <tbody class="text-sm md:text-base">
@@ -17,11 +17,14 @@
           :key="e.id"
         >
           <td class="text-left px-2 hidden lg:table-cell">{{ e.id }}</td>
-          <td class="text-left px-2">{{ e.description }}</td>
           <td class="text-left px-2">
-            <a :href="e.url" class="underline tracking-wide hidden md:table-cell" target="_blank">
-              {{ e.url }}
+            <a :href="e.url" class="underline tracking-wide" target="_blank">
+              {{ e.name }}
             </a>
+
+          </td>
+          <td class="text-left px-2 hidden lg:table-cell">
+              {{ e.description }}
           </td>
         </tr>
       </tbody>
